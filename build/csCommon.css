@@ -1,0 +1,51 @@
+button.__SCHEDULING_HELPER {
+  margin: 0;
+  text-transform: none;
+  -webkit-appearance: button;
+}
+
+.__SCHEDULING_HELPER__btn.__SCHEDULING_HELPER {
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 3px 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.__SCHEDULING_HELPER__btn_primary.__SCHEDULING_HELPER {
+  color: #007bff;
+  background: transparent;
+  border-color: #007bff;
+}
+
+.__SCHEDULING_HELPER__btn_primary.__SCHEDULING_HELPER:hover {
+  color: #fff;
+  background: #007bff;
+}
+
+.__SCHEDULING_HELPER__btn_secondary.__SCHEDULING_HELPER {
+  color: #6c757d;
+  background: transparent;
+  border-color: #6c757d;
+}
+
+.__SCHEDULING_HELPER__btn_secondary.__SCHEDULING_HELPER:hover {
+  color: #fff;
+  background: #6c757d;
+}
+
+.__SCHEDULING_HELPER__btn_reserving.__SCHEDULING_HELPER {
+  margin-left: 6px;
+  margin-right: 6px;
+}
