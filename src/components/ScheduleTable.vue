@@ -215,6 +215,15 @@
     right: 1px;
     left: 1px;
     top: 1px;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .class-card:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transform: scale(1.05);
+    z-index: 998;
   }
 
   .course-name {

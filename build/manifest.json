@@ -1,6 +1,6 @@
 {
   "name": "SHU排课助手",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "上海大学排课助手(插件版)",
   "permissions": [
     "storage"

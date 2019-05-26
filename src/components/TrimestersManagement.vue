@@ -46,7 +46,7 @@
     methods: {
       clearTrimesterReservedClasses(obj) {
         Modal.confirm({
-          title: `正在清空“${obj.name}”的${obj.reservedCount}个待选项……`,
+          title: `正在清空“${obj.name}”的${obj.reservedCount}个待选项`,
           content: '该操作暂无法撤销，确定要继续吗？',
           okText: '确定',
           cancelText: '取消',
@@ -57,7 +57,7 @@
       },
       deleteTrimester(obj) {
         Modal.confirm({
-          title: `正在删除“${obj.name}”……`,
+          title: `正在删除“${obj.name}”`,
           content: (obj.reservedCount > 0 ? `该操作将清空此学期的${obj.reservedCount}个待选项，且` : '该操作') + '暂无法撤销，确定要继续吗？',
           okText: '确定',
           cancelText: '取消',
