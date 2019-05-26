@@ -22,10 +22,10 @@ npm install
 npm run build
 ```
 
-### Test
-
 ## TODOs
 
 - Check for Updates
+
+- Print
 
 - Refactoring
