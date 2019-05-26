@@ -30,6 +30,17 @@
     },
     {
       "matches": [
+        "http://*.shu.edu.cn/StudentQuery/QueryCourseTable"
+      ],
+      "css": [
+        "csCommon.css"
+      ],
+      "js": [
+        "csQueryCourseTable.js"
+      ]
+    },
+    {
+      "matches": [
         "https://xk.zkllab.com/*"
       ],
       "js": [
