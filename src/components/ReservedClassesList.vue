@@ -75,6 +75,13 @@
       };
     },
     computed: {
+      colorSeed() {
+        if (typeof this.$store.state.colorSeeds[this.$store.state.currentTrimester] === 'string') {
+          return this.$store.state.colorSeeds[this.$store.state.currentTrimester];
+        } else {
+          return '';
+        }
+      },
       reservedClasses() {
         return this.$store.state.reservedClasses[this.trimester];
       },
@@ -122,7 +129,7 @@
       },
       colorStyle(courseName) {
         return {
-          background: getColor(courseName),
+          background: getColor(courseName + this.colorSeed),
         }
       },
       selectClass(key) {

@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     reservedClasses: {},
+    colorSeeds: {},
     trimesters: [],
     currentTrimester: null,
     previewClass: null,
@@ -116,6 +117,9 @@ export default new Vuex.Store({
     CLEAR_PREVIEW_CLASS(state) {
       state.previewClass = null;
     },
+    SET_COLOR_SEEDS(state, data) {
+      state.colorSeeds = data;
+    }
   },
   actions: {
     refreshReservedClasses(context) {
@@ -146,46 +150,26 @@ export default new Vuex.Store({
               let e1Result = /(\d+?)-\d+学年(.*?)季学期/.exec(a.name);
               let e2Result = /(\d+?)-\d+学年(.*?)季学期/.exec(b.name);
               if (e1Result === null && e2Result === null) {
-                if (a.name < b.name) {
-                  return -1;
-                } else if (a.name > b.name) {
-                  return 1;
-                } else {
-                  return 0;
-                }
+                return a.name.localeCompare(b.name);
               } else if (e1Result === null) {
                 return 1;
               } else if (e2Result === null) {
                 return -1;
               } else {
-                if (e1Result[1] < e2Result[1]) {
-                  return -1;
-                } else if (e1Result[1] > e2Result[1]) {
-                  return 1;
+                if (e1Result[1] !== e2Result[1]) {
+                  return e1Result[1].localeCompare(e2Result[1]);
                 } else {
                   const seasons = ['秋', '冬', '春', '夏'];
                   let e1Season = seasons.indexOf(e1Result[2]);
                   let e2Season = seasons.indexOf(e2Result[2]);
                   if (e1Season === -1 && e2Season === -1) {
-                    if (e1Result[2] < e2Result[2]) {
-                      return -1;
-                    } else if (e1Result[2] > e2Result[2]) {
-                      return 1;
-                    } else {
-                      return 0;
-                    }
+                    return e1Result[2].localeCompare(e2Result[2]);
                   } else if (e1Season === -1) {
                     return 1;
                   } else if (e2Season === -1) {
                     return -1;
                   } else {
-                    if (e1Season < e2Season) {
-                      return -1;
-                    } else if (e1Season > e2Season) {
-                      return 1;
-                    } else {
-                      return 0;
-                    }
+                    return e1Season - e2Season;
                   }
                 }
               }
@@ -307,5 +291,32 @@ export default new Vuex.Store({
         });
       });
     },
+    refreshColorSeeds(context) {
+      return new Promise((resolve) => {
+        // noinspection JSUnresolvedVariable
+        chrome.storage.local.get('colorSeeds', (items) => {
+          context.commit('SET_COLOR_SEEDS', items['colorSeeds'] ? items['colorSeeds'] : {});
+          resolve();
+        })
+      });
+    },
+    setColorSeed(context, data) {
+      return new Promise((resolve) => {
+        let newSeeds = JSON.parse(JSON.stringify(context.state.colorSeeds));
+        if (data.colorSeed === '') {
+          delete newSeeds[data.trimesterKey];
+        } else {
+          newSeeds[data.trimesterKey] = data.colorSeed;
+        }
+        context.commit('SET_COLOR_SEEDS', newSeeds);
+        // noinspection JSUnresolvedVariable
+        chrome.storage.local.set({
+          colorSeeds: newSeeds,
+        }, () => {
+          context.commit('SET_COLOR_SEEDS', newSeeds);
+          resolve();
+        });
+      });
+    }
   }
 })

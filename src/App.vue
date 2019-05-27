@@ -3,7 +3,7 @@
     <a-layout>
       <a-layout-header class="page-header" style="background: white; padding: 0">
         <div class="header-title">上海大学排课助手
-          <small>插件版 v0.1.2</small>
+          <small>插件版 v0.1.3</small>
         </div>
         <a-menu
           theme="light"
@@ -31,10 +31,6 @@
           <a-menu-item key="help" @click="helpVisible = true">
             <a-icon type="question-circle" />
             帮助
-          </a-menu-item>
-          <a-menu-item key="about" @click="aboutVisible = true">
-            <a-icon type="info-circle" />
-            关于
           </a-menu-item>
         </a-menu>
       </a-layout-header>
@@ -70,7 +66,7 @@
       </a-layout>
     </a-layout>
     <a-drawer
-      width="480px"
+      width="540px"
       title="学期管理"
       placement="right"
       :visible="trimesterManagementVisible"
@@ -80,21 +76,12 @@
     </a-drawer>
     <a-drawer
       width="600px"
-      title="帮助"
       placement="right"
+      title="帮助"
       :visible="helpVisible"
       @close="helpVisible = false"
     >
       <help-page />
-    </a-drawer>
-    <a-drawer
-      width="600px"
-      title="关于"
-      placement="right"
-      :visible="aboutVisible"
-      @close="aboutVisible = false"
-    >
-      <about-page />
     </a-drawer>
   </div>
 </template>
@@ -122,7 +109,6 @@
       return {
         trimesterManagementVisible: false,
         helpVisible: false,
-        aboutVisible: false,
       };
     },
     computed: {
@@ -181,10 +167,10 @@
       },
     },
     created() {
-      this.$store.dispatch('refreshReservedClasses');
+      this.refreshAll();
       // noinspection JSUnresolvedVariable
       chrome.storage.onChanged.addListener(() => {
-        this.$store.dispatch('refreshReservedClasses');
+        this.refreshAll();
       });
     },
     mounted() {
@@ -201,7 +187,11 @@
           content: this.exportNode,
           okText: '知道了',
         });
-      }
+      },
+      refreshAll() {
+        this.$store.dispatch('refreshReservedClasses');
+        this.$store.dispatch('refreshColorSeeds');
+      },
     }
   }
 </script>

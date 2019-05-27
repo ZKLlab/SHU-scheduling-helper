@@ -35,12 +35,31 @@
 
   export default {
     name: 'ScheduleTable',
-    data() {
-      return {}
+    props: {
+      trimester: {
+        type: String,
+        default: null,
+      },
+      seed: {
+        type: String,
+        default: null,
+      },
     },
     computed: {
+      colorSeed() {
+        if (this.seed !== null) {
+          return this.seed;
+        } else if (typeof this.$store.state.colorSeeds[this.currentTrimester] === 'string') {
+          return this.$store.state.colorSeeds[this.currentTrimester];
+        } else {
+          return '';
+        }
+      },
+      currentTrimester() {
+        return this.trimester === null ? this.$store.state.currentTrimester : this.trimester;
+      },
       reservedClasses() {
-        return this.$store.state.reservedClasses[this.$store.state.currentTrimester];
+        return this.$store.state.reservedClasses[this.currentTrimester];
       },
       previewClass() {
         if (this.$store.state.previewClass !== null) {
@@ -142,7 +161,7 @@
         return result;
       },
       getCardStyle(courseName, isPreview) {
-        let baseColor = getColor(courseName);
+        let baseColor = getColor(courseName + this.colorSeed);
         if (isPreview) {
           return {
             color: 'rgba(255, 255, 255, 0.75)',
@@ -215,16 +234,16 @@
     right: 1px;
     left: 1px;
     top: 1px;
-    transition: all 0.15s;
-    cursor: pointer;
+    /*transition: all 0.15s;*/
+    /*cursor: pointer;*/
   }
 
-  .class-card:hover {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    transform: scale(1.05);
-    z-index: 998;
-  }
+  /*.class-card:hover {*/
+  /*  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);*/
+  /*  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);*/
+  /*  transform: scale(1.05);*/
+  /*  z-index: 998;*/
+  /*}*/
 
   .course-name {
     margin-bottom: 2px;

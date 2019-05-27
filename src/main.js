@@ -13,6 +13,7 @@ import {
   List,
   Menu,
   Modal,
+  Popover,
   Popconfirm,
   Select,
   message,
@@ -31,6 +32,7 @@ Vue.use(Layout);
 Vue.use(List);
 Vue.use(Menu);
 Vue.use(Modal);
+Vue.use(Popover);
 Vue.use(Popconfirm);
 Vue.use(Select);
 
