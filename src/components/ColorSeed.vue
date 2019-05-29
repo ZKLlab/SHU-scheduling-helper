@@ -82,7 +82,7 @@
         this.saveSeed();
       },
       randomNumber() {
-        this.seed = Math.floor(Math.random() * Math.pow(2, 53));
+        this.seed = Math.floor(Math.random() * Math.pow(2, 53)).toString();
         this.saveSeed();
       },
       randomString() {
