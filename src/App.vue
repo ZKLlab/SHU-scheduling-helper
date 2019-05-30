@@ -8,10 +8,11 @@
         <a-menu
           theme="light"
           mode="horizontal"
-          :selected-keys="[]"
+          :selected-keys="menuSelectedKeys"
           :style="{ lineHeight: '64px' }"
+          @openChange="menuOpenChangeHandler"
         >
-          <a-sub-menu v-if="trimesters.length > 0" v-model="currentTrimester">
+          <a-sub-menu key="trimesters" v-if="trimesters.length > 0" v-model="currentTrimester">
             <span slot="title"><a-icon type="bars" />{{ currentTrimesterName }}</span>
             <a-menu-item-group title="选择学期">
               <a-menu-item
@@ -108,6 +109,7 @@
     data() {
       return {
         trimesterManagementVisible: false,
+        menuCurrentTrimesterSelected: false,
         helpVisible: false,
       };
     },
@@ -165,6 +167,9 @@
           }
         });
       },
+      menuSelectedKeys() {
+        return this.menuCurrentTrimesterSelected ? [this.$store.state.currentTrimester] : [];
+      }
     },
     created() {
       this.refreshAll();
@@ -192,6 +197,9 @@
         this.$store.dispatch('refreshReservedClasses');
         this.$store.dispatch('refreshColorSeeds');
       },
+      menuOpenChangeHandler(openKeys) {
+        this.menuCurrentTrimesterSelected = openKeys.indexOf('trimesters') > -1;
+      }
     }
   }
 </script>
