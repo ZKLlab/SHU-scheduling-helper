@@ -111,6 +111,7 @@
         trimesterManagementVisible: false,
         menuCurrentTrimesterSelected: false,
         helpVisible: false,
+        version: null,
       };
     },
     computed: {
@@ -173,6 +174,8 @@
     },
     created() {
       this.refreshAll();
+      // noinspection JSUnresolvedVariable,JSUnresolvedFunction
+      this.version = chrome.runtime.getManifest().version;
       // noinspection JSUnresolvedVariable
       chrome.storage.onChanged.addListener(() => {
         this.refreshAll();
@@ -180,6 +183,7 @@
     },
     mounted() {
       document.querySelector('html').classList.add('__SHU_SCHEDULING_HELPER');
+      document.querySelector('html').classList.add(`__SHU_SCHEDULING_HELPER__v${this.version}`);
       let clipboard = new Clipboard('.export-selected-classes');
       clipboard.on('success', () => {
         this.$message.success('已复制！');

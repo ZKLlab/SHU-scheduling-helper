@@ -28,7 +28,20 @@
         >
           删除
         </a-button>
-        <a-list-item-meta :title="item.name" :description="`${item.reservedCount}个待选项`"></a-list-item-meta>
+        <a-list-item-meta>
+          <a href="javascript:void(0);" slot="title" @click="changeCurrentTrimester(item.key)">{{ item.name }}</a>
+          <template slot="description">
+            {{ item.reservedCount }}个待选项
+            <template v-if="$store.state.currentTrimester === item.key">
+              <a-divider type="vertical" />
+              <a-badge
+                count="当前学期"
+                :style="{ marginLeft: '3px' }"
+                :numberStyle="{ backgroundColor: '#ffffff', color: '#999999', boxShadow: '0 0 0 1px #d9d9d9 inset' }"
+              />
+            </template>
+          </template>
+        </a-list-item-meta>
       </a-list-item>
     </a-list>
     <a-drawer
@@ -110,10 +123,15 @@
         this.colorSeedTrimester = obj.key;
         this.colorSeedVisible = true;
       },
+      changeCurrentTrimester(key) {
+        this.$store.commit('CURRENT_TRIMESTER', key);
+      },
     },
   }
 </script>
 
 <style scoped>
-
+  a {
+    text-decoration: none;
+  }
 </style>
