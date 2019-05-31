@@ -1,4 +1,4 @@
-import sha1 from 'hash.js/lib/hash/sha/1.js'
+import sha1 from 'hash.js/lib/hash/sha/1'
 
 export default function (courseName) {
   const colors = [

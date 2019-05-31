@@ -49,7 +49,7 @@
 
 <script>
   import axios from 'axios'
-  import ScheduleTable from './ScheduleTable.vue'
+  import ScheduleTable from './ScheduleTable'
 
   export default {
     name: 'ColorSeed',

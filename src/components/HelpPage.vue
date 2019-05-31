@@ -56,7 +56,7 @@
 </template>
 
 <script>
-  import AboutPage from './AboutPage.vue'
+  import AboutPage from './AboutPage'
 
   export default {
     name: 'HelpPage',

@@ -92,10 +92,10 @@
   import Clipboard from 'clipboard'
   import {Modal} from 'ant-design-vue'
   import HelpPage from './components/HelpPage'
-  import AboutPage from './components/AboutPage.vue'
-  import ScheduleTable from './components/ScheduleTable.vue'
-  import ReservedClassesList from './components/ReservedClassesList.vue'
-  import TrimestersManagement from './components/TrimestersManagement.vue'
+  import AboutPage from './components/AboutPage'
+  import ScheduleTable from './components/ScheduleTable'
+  import ReservedClassesList from './components/ReservedClassesList'
+  import TrimestersManagement from './components/TrimestersManagement'
 
   export default {
     name: 'app',
