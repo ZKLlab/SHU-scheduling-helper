@@ -3,7 +3,7 @@
     <a-layout>
       <a-layout-header class="page-header" style="background: white; padding: 0">
         <div class="header-title">上海大学排课助手
-          <small>插件版 v0.1.3</small>
+          <small>插件版 v{{ version }}</small>
         </div>
         <a-menu
           theme="light"
