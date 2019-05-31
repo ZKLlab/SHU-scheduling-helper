@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Storage from './storage'
 
 Vue.use(Vuex);
 
@@ -125,21 +126,19 @@ export default new Vuex.Store({
     refreshReservedClasses(context) {
       return new Promise((resolve) => {
         context.commit('CLEAR_PREVIEW_CLASS');
-        // noinspection JSUnresolvedVariable
-        chrome.storage.local.get('reservedClasses', (items) => {
+        Storage.get('reservedClasses').then((value) => {
           context.commit('CLEAR_PREVIEW_CLASS');
-          if (items['reservedClasses'] === undefined) {
-            // noinspection JSUnresolvedVariable
-            chrome.storage.local.set({reservedClasses: {}}, function () {
+          if (value === null) {
+            Storage.set('reservedClasses', {}).then(() => {
               context.commit('RESERVED_CLASSES', {});
               context.commit('TRIMESTERS', []);
               resolve();
             });
           } else {
-            context.commit('RESERVED_CLASSES', items['reservedClasses']);
+            context.commit('RESERVED_CLASSES', value);
             let trimesters = [];
-            for (let key in items['reservedClasses']) {
-              if (items['reservedClasses'].hasOwnProperty(key)) {
+            for (let key in value) {
+              if (value.hasOwnProperty(key)) {
                 trimesters.push({
                   key: key,
                   name: decodeURIComponent(atob(key)),
@@ -175,16 +174,15 @@ export default new Vuex.Store({
               }
             });
             if (context.state.currentTrimester === null) {
-              // noinspection JSUnresolvedVariable
-              chrome.storage.local.get('currentTrimester', (items2) => {
+              Storage.get('currentTrimester').then((value2) => {
                 let flag = false;
-                trimesters.forEach((value) => {
-                  if (value.key === items2['currentTrimester']) {
+                trimesters.forEach((value3) => {
+                  if (value3.key === value2) {
                     flag = true;
                   }
                 });
-                if (items2['currentTrimester'] !== undefined && flag) {
-                  context.commit('CURRENT_TRIMESTER', items2['currentTrimester']);
+                if (value2 !== null && flag) {
+                  context.commit('CURRENT_TRIMESTER', value2);
                 }
                 context.commit('TRIMESTERS', trimesters);
                 resolve();
@@ -211,10 +209,7 @@ export default new Vuex.Store({
         context.commit('CLEAR_PREVIEW_CLASS');
         let newClasses = JSON.parse(JSON.stringify(context.state.reservedClasses));
         delete newClasses[context.state.currentTrimester][key];
-        // noinspection JSUnresolvedVariable
-        chrome.storage.local.set({
-          reservedClasses: newClasses,
-        }, () => {
+        Storage.set('reservedClasses', newClasses).then(() => {
           context.commit('CLEAR_PREVIEW_CLASS');
           resolve();
         });
@@ -233,10 +228,7 @@ export default new Vuex.Store({
           }
         }
         newClasses[context.state.currentTrimester][key].selected = true;
-        // noinspection JSUnresolvedVariable
-        chrome.storage.local.set({
-          reservedClasses: newClasses,
-        }, () => {
+        Storage.set('reservedClasses', newClasses).then(() => {
           context.commit('CLEAR_PREVIEW_CLASS');
           resolve();
         });
@@ -254,10 +246,7 @@ export default new Vuex.Store({
             }
           }
         }
-        // noinspection JSUnresolvedVariable
-        chrome.storage.local.set({
-          reservedClasses: newClasses,
-        }, () => {
+        Storage.set('reservedClasses', newClasses).then(() => {
           context.commit('CLEAR_PREVIEW_CLASS');
           resolve();
         });
@@ -268,10 +257,7 @@ export default new Vuex.Store({
         context.commit('CLEAR_PREVIEW_CLASS');
         let newClasses = JSON.parse(JSON.stringify(context.state.reservedClasses));
         newClasses[trimesterKey] = {};
-        // noinspection JSUnresolvedVariable
-        chrome.storage.local.set({
-          reservedClasses: newClasses,
-        }, () => {
+        Storage.set('reservedClasses', newClasses).then(() => {
           context.commit('CLEAR_PREVIEW_CLASS');
           resolve();
         });
@@ -282,10 +268,7 @@ export default new Vuex.Store({
         context.commit('CLEAR_PREVIEW_CLASS');
         let newClasses = JSON.parse(JSON.stringify(context.state.reservedClasses));
         delete newClasses[trimesterKey];
-        // noinspection JSUnresolvedVariable
-        chrome.storage.local.set({
-          reservedClasses: newClasses,
-        }, () => {
+        Storage.set('reservedClasses', newClasses).then(() => {
           context.commit('CLEAR_PREVIEW_CLASS');
           resolve();
         });
@@ -293,11 +276,10 @@ export default new Vuex.Store({
     },
     refreshColorSeeds(context) {
       return new Promise((resolve) => {
-        // noinspection JSUnresolvedVariable
-        chrome.storage.local.get('colorSeeds', (items) => {
-          context.commit('SET_COLOR_SEEDS', items['colorSeeds'] ? items['colorSeeds'] : {});
+        Storage.get('colorSeeds').then((value) => {
+          context.commit('SET_COLOR_SEEDS', value !== null ? value : {});
           resolve();
-        })
+        });
       });
     },
     setColorSeed(context, data) {
@@ -309,14 +291,11 @@ export default new Vuex.Store({
           newSeeds[data.trimesterKey] = data.colorSeed;
         }
         context.commit('SET_COLOR_SEEDS', newSeeds);
-        // noinspection JSUnresolvedVariable
-        chrome.storage.local.set({
-          colorSeeds: newSeeds,
-        }, () => {
+        Storage.set('colorSeeds', newSeeds).then(() => {
           context.commit('SET_COLOR_SEEDS', newSeeds);
           resolve();
         });
       });
     }
   }
-})
+});

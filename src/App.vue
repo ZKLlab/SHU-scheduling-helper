@@ -89,6 +89,7 @@
 
 <script>
   import moment from 'moment'
+  import Storage from './storage'
   import Clipboard from 'clipboard'
   import {Modal} from 'ant-design-vue'
   import HelpPage from './components/HelpPage'
@@ -126,8 +127,7 @@
           return this.$store.state.currentTrimester;
         },
         set(value) {
-          // noinspection JSUnresolvedVariable
-          chrome.storage.local.set({currentTrimester: value}, () => {
+          Storage.set('currentTrimester', value).then(() => {
             this.$store.commit('CURRENT_TRIMESTER', value);
           });
         }
@@ -176,8 +176,7 @@
       this.refreshAll();
       // noinspection JSUnresolvedVariable,JSUnresolvedFunction
       this.version = chrome.runtime.getManifest().version;
-      // noinspection JSUnresolvedVariable
-      chrome.storage.onChanged.addListener(() => {
+      Storage.addListener(() => {
         this.refreshAll();
       });
     },
