@@ -14,4 +14,4 @@ export default function (courseName) {
     '#5D4037',
   ];
   return colors[parseInt(sha1().update(courseName).digest('hex').substr(0, 4), 16) % colors.length];
-};
+}

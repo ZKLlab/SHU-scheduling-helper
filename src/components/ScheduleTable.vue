@@ -10,20 +10,21 @@
       <tbody>
       <tr v-for="(row, index) in tableData" :key="index">
         <th>{{ index + 1 }}</th>
-        <td
-          v-for="(col, index2) in row"
-          v-if="col.hasOwnProperty('skip') ? !col.skip : true"
-          :key="index2"
-          :class="{ 'has-class': col.hasOwnProperty('skip') ? !col.skip : false }"
-          :rowspan="col.hasOwnProperty('rowspan') ? col.rowspan : null"
-        >
-          <template v-if="col.hasOwnProperty('skip') ? !col.skip : false">
-            <div class="class-card" :style="getCardStyle(col.courseName, col.isPreview)">
-              <div class="course-name"><strong>{{ col.courseName }}</strong></div>
-              <div>{{ col.teacherName }}</div>
-            </div>
-          </template>
-        </td>
+        <template v-for="(col, index2) in row">
+          <td
+            v-if="col.hasOwnProperty('skip') ? !col.skip : true"
+            :key="index2"
+            :class="{ 'has-class': col.hasOwnProperty('skip') ? !col.skip : false }"
+            :rowspan="col.hasOwnProperty('rowspan') ? col.rowspan : null"
+          >
+            <template v-if="col.hasOwnProperty('skip') ? !col.skip : false">
+              <div class="class-card" :style="getCardStyle(col.courseName, col.isPreview)">
+                <div class="course-name"><strong>{{ col.courseName }}</strong></div>
+                <div>{{ col.teacherName }}</div>
+              </div>
+            </template>
+          </td>
+        </template>
       </tr>
       </tbody>
     </table>
@@ -143,20 +144,17 @@
       getClassTime(text) {
         let pattern = /([一二三四五])(\d+)-(\d+)/g;
         let result = [];
-        while (true) {
-          let execResult = pattern.exec(text);
-          if (execResult !== null) {
-            let singleResult = {
-              day: ['一', '二', '三', '四', '五'].indexOf(execResult[1]),
-              timespan: []
-            };
-            for (let i = parseInt(execResult[2]); i <= parseInt(execResult[3]); i++) {
-              singleResult.timespan.push(i - 1);
-            }
-            result.push(singleResult);
-          } else {
-            break;
+        let execResult = pattern.exec(text);
+        while (execResult !== null) {
+          let singleResult = {
+            day: ['一', '二', '三', '四', '五'].indexOf(execResult[1]),
+            timespan: [],
+          };
+          for (let i = parseInt(execResult[2]); i <= parseInt(execResult[3]); i++) {
+            singleResult.timespan.push(i - 1);
           }
+          result.push(singleResult);
+          execResult = pattern.exec(text);
         }
         return result;
       },

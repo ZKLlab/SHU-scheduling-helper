@@ -93,7 +93,6 @@
   import Clipboard from 'clipboard'
   import {Modal} from 'ant-design-vue'
   import HelpPage from './components/HelpPage'
-  import AboutPage from './components/AboutPage'
   import ScheduleTable from './components/ScheduleTable'
   import ReservedClassesList from './components/ReservedClassesList'
   import TrimestersManagement from './components/TrimestersManagement'
@@ -102,7 +101,6 @@
     name: 'app',
     components: {
       HelpPage,
-      AboutPage,
       ScheduleTable,
       ReservedClassesList,
       TrimestersManagement,
