@@ -11,6 +11,9 @@ export default new Vuex.Store({
     trimesters: [],
     currentTrimester: null,
     previewClass: null,
+    updateInfo: null,
+    updateReminder: false,
+    updateRequested: false,
   },
   getters: {
     trimesterClasses(state) {
@@ -120,7 +123,16 @@ export default new Vuex.Store({
     },
     SET_COLOR_SEEDS(state, data) {
       state.colorSeeds = data;
-    }
+    },
+    SET_UPDATE_INFO(state, data) {
+      state.updateInfo = data;
+    },
+    SET_UPDATE_REMINDER(state, value) {
+      state.updateReminder = value;
+    },
+    SET_UPDATE_REQUESTED(state) {
+      state.updateRequested = true;
+    },
   },
   actions: {
     refreshReservedClasses(context) {
@@ -296,6 +308,24 @@ export default new Vuex.Store({
           resolve();
         });
       });
-    }
-  }
+    },
+    setUpdateInfo(context, data) {
+      return new Promise((resolve) => {
+        Storage.set('updateInfo', data).then(() => {
+          resolve();
+        });
+      });
+    },
+    refreshUpdateInfo(context) {
+      return new Promise((resolve) => {
+        Storage.get('updateInfo').then((value) => {
+          if (context.state.updateInfo === null) {
+            context.commit('SET_UPDATE_REMINDER', true);
+          }
+          context.commit('SET_UPDATE_INFO', value);
+          resolve();
+        });
+      });
+    },
+  },
 });

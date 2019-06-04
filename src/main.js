@@ -4,6 +4,7 @@ import {
   Avatar,
   Badge,
   Button,
+  Card,
   Collapse,
   Divider,
   Drawer,
@@ -23,6 +24,7 @@ import store from './store'
 Vue.use(Avatar);
 Vue.use(Badge);
 Vue.use(Button);
+Vue.use(Card);
 Vue.use(Collapse);
 Vue.use(Divider);
 Vue.use(Drawer);

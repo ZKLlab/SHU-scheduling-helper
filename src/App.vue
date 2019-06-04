@@ -30,8 +30,10 @@
             </a-menu-item-group>
           </a-sub-menu>
           <a-menu-item key="help" @click="helpVisible = true">
-            <a-icon type="question-circle" />
-            帮助
+            <a-badge :dot="$store.state.updateReminder">
+              <a-icon type="question-circle" />
+              帮助
+            </a-badge>
           </a-menu-item>
         </a-menu>
       </a-layout-header>
@@ -80,6 +82,7 @@
       placement="right"
       title="帮助"
       :visible="helpVisible"
+      :destroy-on-close="true"
       @close="helpVisible = false"
     >
       <help-page />
@@ -92,6 +95,7 @@
   import Storage from './storage'
   import Clipboard from 'clipboard'
   import {Modal} from 'ant-design-vue'
+  import updateCheck from './updateCheck'
   import HelpPage from './components/HelpPage'
   import ScheduleTable from './components/ScheduleTable'
   import ReservedClassesList from './components/ReservedClassesList'
@@ -111,6 +115,7 @@
         menuCurrentTrimesterSelected: false,
         helpVisible: false,
         version: null,
+        updateCheckingTimer: null,
       };
     },
     computed: {
@@ -177,6 +182,13 @@
       Storage.addListener(() => {
         this.refreshAll();
       });
+      this.updateCheckingTimer = setInterval(() => {
+        this.checkForUpdate();
+      }, 5 * 60 * 1000);
+      this.checkForUpdate();
+    },
+    beforeDestroy() {
+      clearInterval(this.updateCheckingTimer);
     },
     mounted() {
       document.querySelector('html').classList.add('__SHU_SCHEDULING_HELPER');
@@ -197,10 +209,18 @@
       refreshAll() {
         this.$store.dispatch('refreshReservedClasses');
         this.$store.dispatch('refreshColorSeeds');
+        this.$store.dispatch('refreshUpdateInfo');
       },
       menuOpenChangeHandler(openKeys) {
         this.menuCurrentTrimesterSelected = openKeys.indexOf('trimesters') > -1;
-      }
+      },
+      checkForUpdate() {
+        updateCheck().then((result) => {
+          if (result !== undefined) {
+            this.$store.dispatch('setUpdateInfo', result);
+          }
+        });
+      },
     }
   }
 </script>

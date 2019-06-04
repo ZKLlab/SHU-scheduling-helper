@@ -1,7 +1,9 @@
 <template>
   <div>
     <p>
-      <a-button icon="info-circle" @click="aboutVisible = true">关于</a-button>
+      <a-badge :dot="$store.state.updateReminder">
+        <a-button icon="info-circle" @click="aboutVisible = true">关于</a-button>
+      </a-badge>
     </p>
     <a-divider></a-divider>
     <p>Hi!<br />欢迎使用上海大学排课助手
@@ -48,6 +50,7 @@
       title="关于"
       placement="right"
       :visible="aboutVisible"
+      :destroy-on-close="true"
       @close="aboutVisible = false"
     >
       <about-page />
