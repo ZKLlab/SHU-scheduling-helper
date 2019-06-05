@@ -24,8 +24,8 @@ npm run build
 
 ## TODOs
 
-- Check for Updates
+- [x] Check for Updates
 
-- Print
+- [ ] Print
 
-- Refactoring
+- [ ] Refactoring
