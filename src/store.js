@@ -319,7 +319,7 @@ export default new Vuex.Store({
     refreshUpdateInfo(context) {
       return new Promise((resolve) => {
         Storage.get('updateInfo').then((value) => {
-          if (context.state.updateInfo === null) {
+          if (value !== null && context.state.updateInfo === null) {
             context.commit('SET_UPDATE_REMINDER', true);
           }
           context.commit('SET_UPDATE_INFO', value);
