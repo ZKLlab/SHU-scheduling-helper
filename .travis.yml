@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "stable"
+  - "lts/*"
+install:
+  - npm install -g @vue/cli
+  - npm install
+script:
+  - npm run build

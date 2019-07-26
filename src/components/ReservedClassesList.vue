@@ -75,6 +75,13 @@
       };
     },
     computed: {
+      colorSeed() {
+        if (typeof this.$store.state.colorSeeds[this.$store.state.currentTrimester] === 'string') {
+          return this.$store.state.colorSeeds[this.$store.state.currentTrimester];
+        } else {
+          return '';
+        }
+      },
       reservedClasses() {
         return this.$store.state.reservedClasses[this.trimester];
       },
@@ -122,7 +129,7 @@
       },
       colorStyle(courseName) {
         return {
-          background: getColor(courseName),
+          background: getColor(courseName + this.colorSeed),
         }
       },
       selectClass(key) {
@@ -139,20 +146,17 @@
       getClassTime(text) {
         let pattern = /([一二三四五])(\d+)-(\d+)/g;
         let result = [];
-        while (true) {
-          let execResult = pattern.exec(text);
-          if (execResult !== null) {
-            let singleResult = {
-              day: ['一', '二', '三', '四', '五'].indexOf(execResult[1]),
-              timespan: []
-            };
-            for (let i = parseInt(execResult[2]); i <= parseInt(execResult[3]); i++) {
-              singleResult.timespan.push(i - 1);
-            }
-            result.push(singleResult);
-          } else {
-            break;
+        let execResult = pattern.exec(text);
+        while (execResult !== null) {
+          let singleResult = {
+            day: ['一', '二', '三', '四', '五'].indexOf(execResult[1]),
+            timespan: [],
+          };
+          for (let i = parseInt(execResult[2]); i <= parseInt(execResult[3]); i++) {
+            singleResult.timespan.push(i - 1);
           }
+          result.push(singleResult);
+          execResult = pattern.exec(text);
         }
         return result;
       },

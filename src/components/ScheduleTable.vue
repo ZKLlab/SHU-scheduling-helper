@@ -10,20 +10,21 @@
       <tbody>
       <tr v-for="(row, index) in tableData" :key="index">
         <th>{{ index + 1 }}</th>
-        <td
-          v-for="(col, index2) in row"
-          v-if="col.hasOwnProperty('skip') ? !col.skip : true"
-          :key="index2"
-          :class="{ 'has-class': col.hasOwnProperty('skip') ? !col.skip : false }"
-          :rowspan="col.hasOwnProperty('rowspan') ? col.rowspan : null"
-        >
-          <template v-if="col.hasOwnProperty('skip') ? !col.skip : false">
-            <div class="class-card" :style="getCardStyle(col.courseName, col.isPreview)">
-              <div class="course-name"><strong>{{ col.courseName }}</strong></div>
-              <div>{{ col.teacherName }}</div>
-            </div>
-          </template>
-        </td>
+        <template v-for="(col, index2) in row">
+          <td
+            v-if="col.hasOwnProperty('skip') ? !col.skip : true"
+            :key="index2"
+            :class="{ 'has-class': col.hasOwnProperty('skip') ? !col.skip : false }"
+            :rowspan="col.hasOwnProperty('rowspan') ? col.rowspan : null"
+          >
+            <template v-if="col.hasOwnProperty('skip') ? !col.skip : false">
+              <div class="class-card" :style="getCardStyle(col.courseName, col.isPreview)">
+                <div class="course-name"><strong>{{ col.courseName }}</strong></div>
+                <div>{{ col.teacherName }}</div>
+              </div>
+            </template>
+          </td>
+        </template>
       </tr>
       </tbody>
     </table>
@@ -35,12 +36,31 @@
 
   export default {
     name: 'ScheduleTable',
-    data() {
-      return {}
+    props: {
+      trimester: {
+        type: String,
+        default: null,
+      },
+      seed: {
+        type: String,
+        default: null,
+      },
     },
     computed: {
+      colorSeed() {
+        if (this.seed !== null) {
+          return this.seed;
+        } else if (typeof this.$store.state.colorSeeds[this.currentTrimester] === 'string') {
+          return this.$store.state.colorSeeds[this.currentTrimester];
+        } else {
+          return '';
+        }
+      },
+      currentTrimester() {
+        return this.trimester === null ? this.$store.state.currentTrimester : this.trimester;
+      },
       reservedClasses() {
-        return this.$store.state.reservedClasses[this.$store.state.currentTrimester];
+        return this.$store.state.reservedClasses[this.currentTrimester];
       },
       previewClass() {
         if (this.$store.state.previewClass !== null) {
@@ -124,25 +144,22 @@
       getClassTime(text) {
         let pattern = /([一二三四五])(\d+)-(\d+)/g;
         let result = [];
-        while (true) {
-          let execResult = pattern.exec(text);
-          if (execResult !== null) {
-            let singleResult = {
-              day: ['一', '二', '三', '四', '五'].indexOf(execResult[1]),
-              timespan: []
-            };
-            for (let i = parseInt(execResult[2]); i <= parseInt(execResult[3]); i++) {
-              singleResult.timespan.push(i - 1);
-            }
-            result.push(singleResult);
-          } else {
-            break;
+        let execResult = pattern.exec(text);
+        while (execResult !== null) {
+          let singleResult = {
+            day: ['一', '二', '三', '四', '五'].indexOf(execResult[1]),
+            timespan: [],
+          };
+          for (let i = parseInt(execResult[2]); i <= parseInt(execResult[3]); i++) {
+            singleResult.timespan.push(i - 1);
           }
+          result.push(singleResult);
+          execResult = pattern.exec(text);
         }
         return result;
       },
       getCardStyle(courseName, isPreview) {
-        let baseColor = getColor(courseName);
+        let baseColor = getColor(courseName + this.colorSeed);
         if (isPreview) {
           return {
             color: 'rgba(255, 255, 255, 0.75)',
@@ -215,16 +232,16 @@
     right: 1px;
     left: 1px;
     top: 1px;
-    transition: all 0.15s;
-    cursor: pointer;
+    /*transition: all 0.15s;*/
+    /*cursor: pointer;*/
   }
 
-  .class-card:hover {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    transform: scale(1.05);
-    z-index: 998;
-  }
+  /*.class-card:hover {*/
+  /*  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);*/
+  /*  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);*/
+  /*  transform: scale(1.05);*/
+  /*  z-index: 998;*/
+  /*}*/
 
   .course-name {
     margin-bottom: 2px;

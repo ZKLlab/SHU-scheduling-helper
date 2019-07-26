@@ -1,9 +1,10 @@
 import Vue from 'vue'
-import App from './App.vue'
+import App from './App'
 import {
   Avatar,
   Badge,
   Button,
+  Card,
   Collapse,
   Divider,
   Drawer,
@@ -13,6 +14,7 @@ import {
   List,
   Menu,
   Modal,
+  Popover,
   Popconfirm,
   Select,
   message,
@@ -22,6 +24,7 @@ import store from './store'
 Vue.use(Avatar);
 Vue.use(Badge);
 Vue.use(Button);
+Vue.use(Card);
 Vue.use(Collapse);
 Vue.use(Divider);
 Vue.use(Drawer);
@@ -31,6 +34,7 @@ Vue.use(Layout);
 Vue.use(List);
 Vue.use(Menu);
 Vue.use(Modal);
+Vue.use(Popover);
 Vue.use(Popconfirm);
 Vue.use(Select);
 
