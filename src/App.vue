@@ -3,15 +3,16 @@
     <a-layout>
       <a-layout-header class="page-header" style="background: white; padding: 0">
         <div class="header-title">上海大学排课助手
-          <small>插件版 v0.1.2</small>
+          <small>插件版 v{{ version }}</small>
         </div>
         <a-menu
           theme="light"
           mode="horizontal"
-          :selected-keys="[]"
+          :selected-keys="menuSelectedKeys"
           :style="{ lineHeight: '64px' }"
+          @openChange="menuOpenChangeHandler"
         >
-          <a-sub-menu v-if="trimesters.length > 0" v-model="currentTrimester">
+          <a-sub-menu key="trimesters" v-if="trimesters.length > 0" v-model="currentTrimester">
             <span slot="title"><a-icon type="bars" />{{ currentTrimesterName }}</span>
             <a-menu-item-group title="选择学期">
               <a-menu-item
@@ -29,12 +30,10 @@
             </a-menu-item-group>
           </a-sub-menu>
           <a-menu-item key="help" @click="helpVisible = true">
-            <a-icon type="question-circle" />
-            帮助
-          </a-menu-item>
-          <a-menu-item key="about" @click="aboutVisible = true">
-            <a-icon type="info-circle" />
-            关于
+            <a-badge :dot="$store.state.updateReminder">
+              <a-icon type="question-circle" />
+              帮助
+            </a-badge>
           </a-menu-item>
         </a-menu>
       </a-layout-header>
@@ -70,7 +69,7 @@
       </a-layout>
     </a-layout>
     <a-drawer
-      width="480px"
+      width="540px"
       title="学期管理"
       placement="right"
       :visible="trimesterManagementVisible"
@@ -80,40 +79,32 @@
     </a-drawer>
     <a-drawer
       width="600px"
-      title="帮助"
       placement="right"
+      title="帮助"
       :visible="helpVisible"
+      :destroy-on-close="true"
       @close="helpVisible = false"
     >
       <help-page />
-    </a-drawer>
-    <a-drawer
-      width="600px"
-      title="关于"
-      placement="right"
-      :visible="aboutVisible"
-      @close="aboutVisible = false"
-    >
-      <about-page />
     </a-drawer>
   </div>
 </template>
 
 <script>
   import moment from 'moment'
+  import Storage from './storage'
   import Clipboard from 'clipboard'
   import {Modal} from 'ant-design-vue'
+  import updateCheck from './updateCheck'
   import HelpPage from './components/HelpPage'
-  import AboutPage from './components/AboutPage.vue'
-  import ScheduleTable from './components/ScheduleTable.vue'
-  import ReservedClassesList from './components/ReservedClassesList.vue'
-  import TrimestersManagement from './components/TrimestersManagement.vue'
+  import ScheduleTable from './components/ScheduleTable'
+  import ReservedClassesList from './components/ReservedClassesList'
+  import TrimestersManagement from './components/TrimestersManagement'
 
   export default {
     name: 'app',
     components: {
       HelpPage,
-      AboutPage,
       ScheduleTable,
       ReservedClassesList,
       TrimestersManagement,
@@ -121,8 +112,10 @@
     data() {
       return {
         trimesterManagementVisible: false,
+        menuCurrentTrimesterSelected: false,
         helpVisible: false,
-        aboutVisible: false,
+        version: null,
+        updateCheckingTimer: null,
       };
     },
     computed: {
@@ -137,8 +130,7 @@
           return this.$store.state.currentTrimester;
         },
         set(value) {
-          // noinspection JSUnresolvedVariable
-          chrome.storage.local.set({currentTrimester: value}, () => {
+          Storage.set('currentTrimester', value).then(() => {
             this.$store.commit('CURRENT_TRIMESTER', value);
           });
         }
@@ -179,16 +171,28 @@
           }
         });
       },
+      menuSelectedKeys() {
+        return this.menuCurrentTrimesterSelected ? [this.$store.state.currentTrimester] : [];
+      }
     },
     created() {
-      this.$store.dispatch('refreshReservedClasses');
-      // noinspection JSUnresolvedVariable
-      chrome.storage.onChanged.addListener(() => {
-        this.$store.dispatch('refreshReservedClasses');
+      this.refreshAll();
+      // noinspection JSUnresolvedVariable,JSUnresolvedFunction
+      this.version = chrome.runtime.getManifest().version;
+      Storage.addListener(() => {
+        this.refreshAll();
       });
+      this.updateCheckingTimer = setInterval(() => {
+        this.checkForUpdate();
+      }, 5 * 60 * 1000);
+      this.checkForUpdate();
+    },
+    beforeDestroy() {
+      clearInterval(this.updateCheckingTimer);
     },
     mounted() {
       document.querySelector('html').classList.add('__SHU_SCHEDULING_HELPER');
+      document.querySelector('html').classList.add(`__SHU_SCHEDULING_HELPER__v${this.version}`);
       let clipboard = new Clipboard('.export-selected-classes');
       clipboard.on('success', () => {
         this.$message.success('已复制！');
@@ -201,7 +205,22 @@
           content: this.exportNode,
           okText: '知道了',
         });
-      }
+      },
+      refreshAll() {
+        this.$store.dispatch('refreshReservedClasses');
+        this.$store.dispatch('refreshColorSeeds');
+        this.$store.dispatch('refreshUpdateInfo');
+      },
+      menuOpenChangeHandler(openKeys) {
+        this.menuCurrentTrimesterSelected = openKeys.indexOf('trimesters') > -1;
+      },
+      checkForUpdate() {
+        updateCheck().then((result) => {
+          if (result !== undefined) {
+            this.$store.dispatch('setUpdateInfo', result);
+          }
+        });
+      },
     }
   }
 </script>

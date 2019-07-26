@@ -1,5 +1,6 @@
 <template>
   <div>
+    <update-message />
     <p>开发者很懒，什么都没有留下。</p>
     <p>
       项目已开源，<br />
@@ -34,8 +35,11 @@
 </template>
 
 <script>
+  import UpdateMessage from './UpdateMessage'
+
   export default {
     name: 'AboutPage',
+    components: {UpdateMessage},
     computed: {
       email() {
         return atob('emtsQHprbGxhYi5jb20=');
@@ -44,7 +48,7 @@
         return `mailto:${this.email}`
       },
     },
-  }
+  };
 </script>
 
 <style scoped>
