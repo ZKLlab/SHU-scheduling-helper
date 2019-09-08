@@ -39,13 +39,13 @@
       </a-layout-header>
       <a-layout>
         <a-layout-sider
-          width="400px"
+          width="460px"
           theme="light"
           class="schedule-table-sider"
         >
           <schedule-table />
         </a-layout-sider>
-        <a-layout :style="{ marginLeft: '400px', marginTop: '64px' }">
+        <a-layout :style="{ marginLeft: '460px', marginTop: '64px' }">
           <a-layout-content class="reserved-classes-list-content">
             <div class="list-actions">
               <a href="http://www.xk.shu.edu.cn/" target="_blank">
@@ -135,6 +135,19 @@
           });
         }
       },
+      policySelected() {
+        let flag = false;
+        if (/[秋冬春]/.test(this.currentTrimesterName)) {
+          this.$store.getters.exportList.forEach((value) => {
+            if (/^形势与政策/.test(value[1])) {
+              flag = true;
+            }
+          });
+        } else {
+          flag = true;
+        }
+        return flag;
+      },
       exportText() {
         let result = `导出时间：\n${moment().format('YYYY-MM-DD HH:mm:ss')}`;
         if (this.$store.getters.exportList.length === 0) {
@@ -147,8 +160,20 @@
       },
       exportNode() {
         const h = this.$createElement;
+        let result = [];
+        if (!this.policySelected) {
+          result.push(h('a-alert', {
+            props: {
+              message: '未选形势与政策',
+              closeText: '忽略',
+              type: 'info',
+              showIcon: true,
+              closable: true,
+            },
+          }));
+        }
         // noinspection JSUnusedGlobalSymbols
-        return h('a-textarea', {
+        result.push(h('a-textarea', {
           'class': {
             'export-textarea': true
           },
@@ -168,8 +193,9 @@
               event.target.select();
               event.target.scrollTop = 0;
             },
-          }
-        });
+          },
+        }));
+        return result;
       },
       menuSelectedKeys() {
         return this.menuCurrentTrimesterSelected ? [this.$store.state.currentTrimester] : [];

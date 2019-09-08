@@ -55,7 +55,7 @@ export default new Vuex.Store({
                 if (execResult !== null) {
                   let singleResult = {
                     day: ['一', '二', '三', '四', '五'].indexOf(execResult[1]),
-                    timespan: []
+                    timespan: [],
                   };
                   for (let i = parseInt(execResult[2]); i <= parseInt(execResult[3]); i++) {
                     singleResult.timespan.push(i - 1);

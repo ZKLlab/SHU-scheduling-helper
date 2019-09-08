@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import {
+  Alert,
   Avatar,
   Badge,
   Button,
@@ -21,6 +22,7 @@ import {
 } from 'ant-design-vue'
 import store from './store'
 
+Vue.use(Alert);
 Vue.use(Avatar);
 Vue.use(Badge);
 Vue.use(Button);

@@ -13,7 +13,6 @@
         </a-popover>
         计算出来的，也就是说每个课程在任何时间、任何设备都有相同的主题颜色。
       </p>
-      <p>这种方法的缺点是，有时相邻的课程使用了同一种颜色，难以区分；有时计算出的颜色不够协调，缺少美感。计算机不具有审美能力，因此对颜色的调整很难通过程序来完成</p>
       <p><strong>色彩Seed</strong> 功能提供了一种人为改变颜色的方式，你可以在下面的输入框中输入任何文字，然后观察课程颜色的变化。</p>
       <div class="input-wrapper">
         <p>
@@ -140,7 +139,7 @@
     position: fixed;
     padding: 8px;
     bottom: 24px;
-    width: 400px;
+    width: 460px;
     left: 24px;
     top: 80px;
   }
@@ -150,7 +149,7 @@
     position: fixed;
     bottom: 24px;
     right: 24px;
-    left: 448px;
+    left: 508px;
     top: 80px;
   }
 

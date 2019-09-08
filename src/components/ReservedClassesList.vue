@@ -1,61 +1,86 @@
 <template>
   <a-collapse accordion :bordered="false" v-if="reservedClassesList.length" v-model="accordionOpened">
-    <a-collapse-panel v-for="course in reservedClassesList" :key="course.courseId">
-      <template slot="header">
-        <div class="course-color" :style="colorStyle(course.courseName)"></div>
-        <div class="course-meta">
-          {{ course.courseName }}
-          <small>({{ course.courseId }})</small>
-          <a-badge
-            class="credit-badge"
-            :count="`${course.credit}学分`"
-            :numberStyle="{ backgroundColor: '#ffffff', color: '#999999', boxShadow: '0 0 0 1px #d9d9d9 inset' }"
-          />
-          <template v-if="course.selectedClass !== null && accordionOpened !== course.courseId">
-            <br />
-            {{ course.selectedClass.teacherName }}
-            <small>({{ course.selectedClass.teacherId }})</small>
-            <a-divider type="vertical" />
-            <small class="selected-class-time">{{ course.selectedClass.classTime }}</small>
-          </template>
-        </div>
-      </template>
-      <a-list size="small" class="classes-list" :dataSource="course.classes" :locale="{ emptyText: '没有其他待选项了' }">
-        <a-list-item
-          class="selected-class-list-item"
-          slot="header"
-          v-if="course.selectedClass !== null && accordionOpened === course.courseId"
-        >
-          <a-list-item-meta :description="course.selectedClass.classTime">
-            <template slot="title">{{ course.selectedClass.teacherName }}
+    <template v-for="(course, index) in reservedClassesList">
+      <a-collapse-panel
+        v-if="index === 0 && course.selectedClass === null"
+        :key="`${course.courseId}-divider`"
+        class="list-header"
+        :show-arrow="false"
+        disabled
+      >
+        <template slot="header">
+          未选课程
+        </template>
+      </a-collapse-panel>
+      <a-collapse-panel
+        v-else-if="(index === 0 || reservedClassesList[index - 1].selectedClass === null) && course.selectedClass !== null"
+        :key="`${course.courseId}-divider`"
+        class="list-header"
+        :show-arrow="false"
+        disabled
+      >
+        <template slot="header">
+          已选课程
+        </template>
+      </a-collapse-panel>
+      <a-collapse-panel :key="course.courseId">
+        <template slot="header">
+          <div class="course-color" :style="colorStyle(course.courseName)"></div>
+          <div class="course-meta">
+            {{ course.courseName }}
+            <small>({{ course.courseId }})</small>
+            <a-badge
+              class="credit-badge"
+              :count="`${course.credit}学分`"
+              :numberStyle="{ backgroundColor: '#ffffff', color: '#999999', boxShadow: '0 0 0 1px #d9d9d9 inset' }"
+            />
+            <template v-if="course.selectedClass !== null && accordionOpened !== course.courseId">
+              <br />
+              {{ course.selectedClass.teacherName }}
               <small>({{ course.selectedClass.teacherId }})</small>
+              <a-divider type="vertical" />
+              <small class="selected-class-time">{{ course.selectedClass.classTime }}</small>
             </template>
-            <a-avatar slot="avatar">已选</a-avatar>
-          </a-list-item-meta>
-          <a-button slot="actions" @click="cancelSelectClass(course.selectedClass.key)">取消选择</a-button>
-        </a-list-item>
-        <a-list-item slot="renderItem" slot-scope="item" class="classes-list-item"
-                     @mouseenter="previewClass(item)" @mouseleave="cancelPreviewClass(item.key)">
-          <a-button type="primary" slot="actions" @click="selectClass(item.key)" v-if="conflictList(item).length === 0">
-            选择
-          </a-button>
-          <a-button type="danger" slot="actions" @click="showConflict(conflictList(item))" v-else>
-            冲突
-          </a-button>
-          <a-popconfirm
-            placement="left" title="确定要将该项移出待选列表吗？" okText="确定" cancelText="取消" slot="actions"
-            @confirm="removeReserved(item.key)"
+          </div>
+        </template>
+        <a-list size="small" class="classes-list" :dataSource="course.classes" :locale="{ emptyText: '没有其他待选项了' }">
+          <a-list-item
+            class="selected-class-list-item"
+            slot="header"
+            v-if="course.selectedClass !== null && accordionOpened === course.courseId"
           >
-            <a-button type="dashed">- 待选</a-button>
-          </a-popconfirm>
-          <a-list-item-meta :description="item.classTime">
-            <template slot="title">{{ item.teacherName }}
-              <small>({{ item.teacherId }})</small>
-            </template>
-          </a-list-item-meta>
-        </a-list-item>
-      </a-list>
-    </a-collapse-panel>
+            <a-list-item-meta :description="course.selectedClass.classTime">
+              <template slot="title">{{ course.selectedClass.teacherName }}
+                <small>({{ course.selectedClass.teacherId }})</small>
+              </template>
+              <a-avatar slot="avatar">已选</a-avatar>
+            </a-list-item-meta>
+            <a-button slot="actions" @click="cancelSelectClass(course.selectedClass.key)">取消选择</a-button>
+          </a-list-item>
+          <a-list-item slot="renderItem" slot-scope="item" class="classes-list-item"
+                       @mouseenter="previewClass(item)" @mouseleave="cancelPreviewClass(item.key)">
+            <a-button type="primary" slot="actions" @click="selectClass(item.key)"
+                      v-if="conflictList(item).length === 0">
+              选择
+            </a-button>
+            <a-button type="danger" slot="actions" @click="showConflict(conflictList(item))" v-else>
+              冲突
+            </a-button>
+            <a-popconfirm
+              placement="left" title="确定要将该项移出待选列表吗？" okText="确定" cancelText="取消" slot="actions"
+              @confirm="removeReserved(item.key)"
+            >
+              <a-button type="dashed">- 待选</a-button>
+            </a-popconfirm>
+            <a-list-item-meta :description="item.classTime">
+              <template slot="title">{{ item.teacherName }}
+                <small>({{ item.teacherId }})</small>
+              </template>
+            </a-list-item-meta>
+          </a-list-item>
+        </a-list>
+      </a-collapse-panel>
+    </template>
   </a-collapse>
 </template>
 
@@ -65,7 +90,6 @@
 
   export default {
     name: 'ReservedClassesList',
-    components: {},
     props: {
       trimester: String
     },
@@ -269,5 +293,11 @@
     vertical-align: top;
     position: relative;
     top: 3px;
+  }
+
+  /*noinspection ALL*/
+  .list-header >>> .ant-collapse-header {
+    cursor: default !important;
+    user-select: none;
   }
 </style>

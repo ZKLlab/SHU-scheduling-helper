@@ -1,10 +1,11 @@
 {
   "name": "SHU排课助手",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "上海大学排课助手(插件版)",
   "homepage_url": "https://xk.zkllab.com",
   "permissions": [
-    "storage"
+    "storage",
+    "http://*.shu.edu.cn/"
   ],
   "background": {
     "scripts": [

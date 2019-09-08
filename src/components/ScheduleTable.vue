@@ -3,13 +3,18 @@
     <table class="schedule-table">
       <thead>
       <tr>
-        <th :style="{ width: '10%' }"></th>
-        <th v-for="week in ['一', '二', '三', '四', '五']" :key="week" :style="{ width: '18%' }">{{ week }}</th>
+        <th :style="{ width: '6.5%' }"></th>
+        <th :style="{ width: '16%' }"></th>
+        <th v-for="week in ['一', '二', '三', '四', '五']" :key="week" :style="{ width: '15.5%' }">{{ week }}</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="(row, index) in tableData" :key="index">
         <th>{{ index + 1 }}</th>
+        <td class="class-period">
+          <p>{{ classPeriods[index][0] }}</p>
+          <p>- {{ classPeriods[index][1] }}</p>
+        </td>
         <template v-for="(col, index2) in row">
           <td
             v-if="col.hasOwnProperty('skip') ? !col.skip : true"
@@ -20,7 +25,7 @@
             <template v-if="col.hasOwnProperty('skip') ? !col.skip : false">
               <div class="class-card" :style="getCardStyle(col.courseName, col.isPreview)">
                 <div class="course-name"><strong>{{ col.courseName }}</strong></div>
-                <div>{{ col.teacherName }}</div>
+                <div class="teacher-name">{{ col.teacherName }}</div>
               </div>
             </template>
           </td>
@@ -45,6 +50,25 @@
         type: String,
         default: null,
       },
+    },
+    data() {
+      return {
+        classPeriods: [
+          ['8:00', '8:45'],
+          ['8:55', '9:40'],
+          ['10:00', '10:45'],
+          ['10:55', '11:40'],
+          ['12:10', '12:55'],
+          ['13:05', '13:50'],
+          ['14:10', '14:55'],
+          ['15:05', '15:50'],
+          ['16:00', '16:45'],
+          ['16:55', '17:40'],
+          ['18:00', '18:45'],
+          ['18:55', '19:40'],
+          ['19:50', '20:35'],
+        ]
+      }
     },
     computed: {
       colorSeed() {
@@ -173,7 +197,7 @@
             background: `rgba(${parseInt(baseColor.substr(1, 2), 16)}, ${parseInt(baseColor.substr(3, 2), 16)}, ${parseInt(baseColor.substr(5, 2), 16)}, 0.75)`,
           };
         }
-      }
+      },
     }
   }
 </script>
@@ -218,6 +242,25 @@
     position: relative;
   }
 
+  .class-period {
+    font-size: 12px;
+    user-select: none;
+  }
+
+  .class-period p {
+    margin: 0;
+  }
+
+  .class-period p:first-child {
+    padding-right: 1em;
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  .class-period p:last-child {
+    padding-left: 1em;
+    color: rgba(0, 0, 0, 0.35);
+  }
+
   .class-card {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border-top-style: solid;
@@ -227,23 +270,19 @@
     text-align: left;
     position: absolute;
     overflow: hidden;
-    padding: 5px;
+    padding: 4px 5px 5px;
     bottom: 1px;
     right: 1px;
     left: 1px;
     top: 1px;
-    /*transition: all 0.15s;*/
-    /*cursor: pointer;*/
   }
 
-  /*.class-card:hover {*/
-  /*  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);*/
-  /*  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);*/
-  /*  transform: scale(1.05);*/
-  /*  z-index: 998;*/
-  /*}*/
-
   .course-name {
-    margin-bottom: 2px;
+    margin-bottom: 1px;
+  }
+
+  .teacher-name {
+    font-size: 12px;
+    line-height: 1.25;
   }
 </style>

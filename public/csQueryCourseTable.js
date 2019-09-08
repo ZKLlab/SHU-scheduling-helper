@@ -121,7 +121,6 @@ function callback(mutationList) {
     value.setAttribute('colspan', '12')
   });
   mutationList.forEach((mutation) => {
-    console.log(mutation.addedNodes.length);
     if (mutation.addedNodes.length >= 3) {
       addCol();
     }

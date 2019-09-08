@@ -49,3 +49,7 @@ button.__SCHEDULING_HELPER {
   margin-left: 6px;
   margin-right: 6px;
 }
+
+.__SCHEDULING_HELPER__container_fast_input.__SCHEDULING_HELPER p {
+  margin: 0 0 1em;
+}

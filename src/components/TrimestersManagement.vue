@@ -3,6 +3,7 @@
     <a-list
       itemLayout="horizontal"
       :dataSource="trimesters"
+      :locale="{emptyText: '没有学期数据'}"
     >
       <a-list-item slot="renderItem" slot-scope="item">
         <a-button
