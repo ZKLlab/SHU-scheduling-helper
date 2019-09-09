@@ -1,13 +1,16 @@
 <template>
   <div>
     <update-message />
-    <p>开发者很懒，什么都没有留下。</p>
+    <p>如果喜欢，<a href="https://chrome.google.com/webstore/detail/kmgdfejkkpmeimbkglbjmgbfiggimfhp" target="_blank">请给这个扩展程序一个好评(墙外)：</a><br />
+      <a href="https://chrome.google.com/webstore/detail/kmgdfejkkpmeimbkglbjmgbfiggimfhp"
+         target="_blank" class="rate-link">
+        <a-rate :defaultValue="5" disabled />
+      </a>
+    </p>
     <p>
-      项目已开源，<br />
-      <del>
-        对于需要练习代码优化和重构/重写的人来说，<br />
-        此项目必为最值得用于练习的案例（大雾）。
-      </del>
+      项目已开源，欢迎贡献代码！<br />
+      如遇到任何问题，可以通过邮件或Github Issue的方式告知我，<br />
+      非常感谢。
     </p>
     <p><a href="https://chrome.google.com/webstore/detail/kmgdfejkkpmeimbkglbjmgbfiggimfhp" target="_blank">
       <img alt="Chrome Web Store"
@@ -52,5 +55,8 @@
 </script>
 
 <style scoped>
-
+  /*noinspection CssUnusedSymbol*/
+  .rate-link >>> .ant-rate-star {
+    cursor: pointer !important;
+  }
 </style>

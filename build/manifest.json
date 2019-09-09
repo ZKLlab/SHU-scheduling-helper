@@ -5,13 +5,16 @@
   "homepage_url": "https://xk.zkllab.com",
   "permissions": [
     "storage",
-    "http://*.shu.edu.cn/"
+    "tabs"
   ],
   "background": {
     "scripts": [
       "background.js"
     ],
     "persistent": false
+  },
+  "browser_action": {
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {

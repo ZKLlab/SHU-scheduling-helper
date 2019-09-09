@@ -17,6 +17,7 @@ import {
   Modal,
   Popover,
   Popconfirm,
+  Rate,
   Select,
   message,
 } from 'ant-design-vue'
@@ -38,6 +39,7 @@ Vue.use(Menu);
 Vue.use(Modal);
 Vue.use(Popover);
 Vue.use(Popconfirm);
+Vue.use(Rate);
 Vue.use(Select);
 
 Vue.prototype.$message = message;
