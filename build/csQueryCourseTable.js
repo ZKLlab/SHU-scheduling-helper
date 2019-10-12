@@ -41,6 +41,10 @@ function addCol() {
     helper_element.parentNode.removeChild(helper_element);
   }
 
+  if (document.querySelectorAll('#divCourseMain table').length < 2) {
+    return;
+  }
+
   let thHeaders = document.querySelectorAll('#divCourseMain table:nth-of-type(1) tr:nth-of-type(3) th');
   thHeaders.forEach(function (value) {
     value.style.width = null;
