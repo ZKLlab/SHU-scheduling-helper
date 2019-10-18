@@ -68,3 +68,10 @@ button.__SCHEDULING_HELPER {
   border-top: 1px solid rgba(96, 125, 139, 1);
   border-bottom: 1px solid rgba(96, 125, 139, 1);
 }
+
+.__SCHEDULING_HELPER__fast_input_class_block_selected.__SCHEDULING_HELPER {
+  padding: 8px !important;
+  background: rgba(250, 250, 250, 0.5);
+  border-top: 1px solid rgba(158, 158, 158, 0.5);
+  border-bottom: 1px solid rgba(158, 158, 158, 0.5);
+}

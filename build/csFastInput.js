@@ -76,9 +76,9 @@ function getExportText() {
         if (selectedClasses[value[0]] === true) {
           text += `<p style="opacity: 0.5"><i>${index + 1}. <b>[已选]</b><br />${HTMLEncode(value[0])}<br />${HTMLEncode(value[1])}</i></p>`;
         } else if (inputClasses[value[0]] === true) {
-          text += `<p><i>${index + 1}. <b>[已填入]</b><br />${HTMLEncode(value[0])}<br />${HTMLEncode(value[1])}</i></p>`;
+          text += `<p class="__SCHEDULING_HELPER__fast_input_class_block_selected __SCHEDULING_HELPER"><i>${index + 1}. <b>[已填入]</b><br />${HTMLEncode(value[0])}<br />${HTMLEncode(value[1])}</i></p>`;
         } else if (inputClassesCount >= 6) {
-          text += `<p>${index + 1}. <b style="color: #2196F3">[可自动填写，请先提交]</b><br />${HTMLEncode(value[0])}<br />${HTMLEncode(value[1])}</p>`;
+          text += `<p>${index + 1}. <b style="color: red">[可自动填写，请先提交已有课程]</b><br />${HTMLEncode(value[0])}<br />${HTMLEncode(value[1])}</p>`;
         } else {
           text += `<p class="__SCHEDULING_HELPER__fast_input_class_block __SCHEDULING_HELPER" data-class-key="${value[0]}">${index + 1}. <b style="color: #2196F3">[点击自动填写]</b><br />${HTMLEncode(value[0])}<br />${HTMLEncode(value[1])}</p>`;
         }
@@ -133,7 +133,6 @@ function getInputClasses() {
     let teacherId = document.querySelector(`input[name="ListCourse[${i}].TNo"]`);
     if (courseId != null && teacherId != null) {
       let classKey = `${courseId.value}, ${teacherId.value}`;
-      console.log(classKey);
       if (classKey.length === 14) {
         inputClasses[classKey] = true;
         inputClassesCount++;
