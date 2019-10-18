@@ -115,7 +115,7 @@ function getSelectedClasses() {
     let courseId = document.querySelector(`input[name="ListCourse[${i}].CID"]`);
     let teacherId = document.querySelector(`input[name="ListCourse[${i}].TNo"]`);
     if (courseId != null && teacherId != null) {
-      let classKey = `${courseId.value}, ${teacherId.value}`;
+      let classKey = `${courseId.value.trim()}, ${teacherId.value.trim()}`;
       if (classKey.length !== 14 || selectedClasses[classKey] === true) {
         courseId.value = '';
         teacherId.value = '';
@@ -132,7 +132,7 @@ function getInputClasses() {
     let courseId = document.querySelector(`input[name="ListCourse[${i}].CID"]`);
     let teacherId = document.querySelector(`input[name="ListCourse[${i}].TNo"]`);
     if (courseId != null && teacherId != null) {
-      let classKey = `${courseId.value}, ${teacherId.value}`;
+      let classKey = `${courseId.value.trim()}, ${teacherId.value.trim()}`;
       if (classKey.length === 14) {
         inputClasses[classKey] = true;
         inputClassesCount++;
@@ -148,7 +148,7 @@ function inputClass(classKey) {
     let courseId = document.querySelector(`input[name="ListCourse[${i}].CID"]`);
     let teacherId = document.querySelector(`input[name="ListCourse[${i}].TNo"]`);
     if (courseId != null && teacherId != null) {
-      let classKey = `${courseId.value}, ${teacherId.value}`;
+      let classKey = `${courseId.value.trim()}, ${teacherId.value.trim()}`;
       if (classKey.length !== 14) {
         courseId.value = classInfo[0];
         teacherId.value = classInfo[1];
