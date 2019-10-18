@@ -51,5 +51,20 @@ button.__SCHEDULING_HELPER {
 }
 
 .__SCHEDULING_HELPER__container_fast_input.__SCHEDULING_HELPER p {
+  padding: 0 8px;
   margin: 0 0 1em;
+}
+
+.__SCHEDULING_HELPER__fast_input_class_block.__SCHEDULING_HELPER {
+  cursor: pointer;
+  padding: 8px !important;
+  background: rgba(227, 242, 253, 0.5);
+  border-top: 1px solid rgba(96, 125, 139, 0.5);
+  border-bottom: 1px solid rgba(96, 125, 139, 0.5);
+}
+
+.__SCHEDULING_HELPER__fast_input_class_block.__SCHEDULING_HELPER:hover {
+  background: rgba(227, 242, 253, 1);
+  border-top: 1px solid rgba(96, 125, 139, 1);
+  border-bottom: 1px solid rgba(96, 125, 139, 1);
 }
