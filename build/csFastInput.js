@@ -57,7 +57,7 @@ function getExportText() {
         let selectedCompare = (selectedClasses[a[0]] === true ? 1 : 0) - (selectedClasses[b[0]] === true ? 1 : 0);
         let inputCompare = (inputClasses[a[0]] === true ? 1 : 0) - (inputClasses[b[0]] === true ? 1 : 0);
         if (selectedCompare === 0) {
-          if (inputCompare === 0) {
+          if (inputCompare === 0 || (selectedClasses[a[0]] === true && selectedClasses[b[0]] === true)) {
             return a[0].localeCompare(b[0]);
           } else {
             return inputCompare;
@@ -111,7 +111,18 @@ function getSelectedClasses() {
       selectedClasses[classKey] = true;
     }
   });
-  getExportText();
+  for (let i = 0; i < 6; i++) {
+    let courseId = document.querySelector(`input[name="ListCourse[${i}].CID"]`);
+    let teacherId = document.querySelector(`input[name="ListCourse[${i}].TNo"]`);
+    if (courseId != null && teacherId != null) {
+      let classKey = `${courseId.value}, ${teacherId.value}`;
+      if (classKey.length !== 14 || selectedClasses[classKey] === true) {
+        courseId.value = '';
+        teacherId.value = '';
+      }
+    }
+  }
+  setTimeout(getInputClasses, 0);
 }
 
 function getInputClasses() {
@@ -121,9 +132,8 @@ function getInputClasses() {
     let courseId = document.querySelector(`input[name="ListCourse[${i}].CID"]`);
     let teacherId = document.querySelector(`input[name="ListCourse[${i}].TNo"]`);
     if (courseId != null && teacherId != null) {
-      courseId = courseId.value;
-      teacherId = teacherId.value;
-      let classKey = `${courseId}, ${teacherId}`;
+      let classKey = `${courseId.value}, ${teacherId.value}`;
+      console.log(classKey);
       if (classKey.length === 14) {
         inputClasses[classKey] = true;
         inputClassesCount++;
@@ -147,7 +157,7 @@ function inputClass(classKey) {
       }
     }
   }
-  getInputClasses();
+  setTimeout(getInputClasses, 0);
 }
 
 function callback(mutationList) {
@@ -171,6 +181,10 @@ document.querySelectorAll('#divInput input[type="text"]').forEach(function (elem
   element.addEventListener('input', function () {
     getInputClasses();
   });
+});
+
+document.querySelector('#postForm').addEventListener('reset', function () {
+  setTimeout(getInputClasses, 0);
 });
 
 setTimeout(function () {
