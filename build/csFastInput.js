@@ -1,7 +1,7 @@
 document.querySelector('.master_maindiv').style.width = '1220px';
 let tdColExport = document.createElement('td');
 tdColExport.style.width = '220px';
-tdColExport.style.padding = '5px';
+tdColExport.style.padding = '5px 0';
 tdColExport.style.fontSize = '12px';
 let divColExportText = document.createElement('div');
 divColExportText.style.height = '480px';

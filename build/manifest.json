@@ -52,6 +52,17 @@
     },
     {
       "matches": [
+        "http://*.shu.edu.cn/StudentQuery/QueryEnrollRank"
+      ],
+      "css": [
+        "csCommon.css"
+      ],
+      "js": [
+        "csQueryEnrollRank.js"
+      ]
+    },
+    {
+      "matches": [
         "https://xk.zkllab.com/*"
       ],
       "js": [

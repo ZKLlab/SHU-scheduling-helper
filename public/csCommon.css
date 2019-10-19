@@ -75,3 +75,20 @@ button.__SCHEDULING_HELPER {
   border-top: 1px solid rgba(158, 158, 158, 0.5);
   border-bottom: 1px solid rgba(158, 158, 158, 0.5);
 }
+
+.__SCHEDULING_HELPER__enroll_rank_exceeded.__SCHEDULING_HELPER {
+  font-weight: bold;
+  color: #FF9800;
+}
+
+.__SCHEDULING_HELPER__enroll_rank_hint.__SCHEDULING_HELPER:after {
+  content: '* 高亮显示排名超过额定人数的课程';
+  font-weight: bold;
+  color: #FF9800;
+}
+
+.__SCHEDULING_HELPER__enroll_rank_hint_alt.__SCHEDULING_HELPER:after {
+  content: '* 高亮显示排名超过额定人数的课程，只有排名处高亮表示将可能被随机删选';
+  font-weight: bold;
+  color: #FF9800;
+}
