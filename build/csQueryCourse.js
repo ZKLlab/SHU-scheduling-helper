@@ -33,34 +33,34 @@ function setReservedClasses(trimesterKey, data, callback) {
 }
 
 function addCol() {
-  while (true) {
-    let helper_element = document.querySelector('.__SCHEDULING_HELPER');
-    if (helper_element === null) {
-      break;
-    }
-    helper_element.parentNode.removeChild(helper_element);
-  }
-
-  let thHeaders = document.querySelectorAll('#divMainContent table tr:nth-of-type(1) th');
-  thHeaders.forEach(function (value) {
-    value.style.width = null;
-  });
-
-  let trHeader = document.querySelector('#divMainContent table tr:nth-of-type(1)');
-  let thHelperTitle = document.createElement('th');
-  thHelperTitle.innerText = '排课助手';
-  thHelperTitle.classList.add('__SCHEDULING_HELPER');
-  trHeader.appendChild(thHelperTitle);
-
-  let strCourseId = null;
-  let strCourseName = null;
-  let numCredit = null;
-  let strTeacherId = null;
-  let strTeacherName = null;
-  let strClassTime = null;
   let strTrimesterName = document.querySelector('.span_currentUserInfo > font').innerText;
   let strTrimesterKey = btoa(encodeURIComponent(strTrimesterName));
   getReservedClasses(strTrimesterKey, function (objReservedClasses) {
+    while (true) {
+      let helper_element = document.querySelector('.__SCHEDULING_HELPER');
+      if (helper_element === null) {
+        break;
+      }
+      helper_element.parentNode.removeChild(helper_element);
+    }
+
+    let thHeaders = document.querySelectorAll('#divMainContent table tr:nth-of-type(1) th');
+    thHeaders.forEach(function (value) {
+      value.style.width = null;
+    });
+
+    let trHeader = document.querySelector('#divMainContent table tr:nth-of-type(1)');
+    let thHelperTitle = document.createElement('th');
+    thHelperTitle.innerText = '排课助手';
+    thHelperTitle.classList.add('__SCHEDULING_HELPER');
+    trHeader.appendChild(thHelperTitle);
+
+    let strCourseId = null;
+    let strCourseName = null;
+    let numCredit = null;
+    let strTeacherId = null;
+    let strTeacherName = null;
+    let strClassTime = null;
     let arrTrRows = document.querySelectorAll('#divMainContent table tr:not(:nth-of-type(1))');
     arrTrRows.forEach(function (trRow) {
       if (trRow.children[0].getAttribute('rowspan') !== null) {

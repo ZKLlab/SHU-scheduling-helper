@@ -33,32 +33,32 @@ function setReservedClasses(trimesterKey, data, callback) {
 }
 
 function addCol() {
-  while (true) {
-    let helper_element = document.querySelector('.__SCHEDULING_HELPER');
-    if (helper_element === null) {
-      break;
-    }
-    helper_element.parentNode.removeChild(helper_element);
-  }
-
-  if (document.querySelectorAll('#divCourseMain table').length < 2) {
-    return;
-  }
-
-  let thHeaders = document.querySelectorAll('#divCourseMain table:nth-of-type(1) tr:nth-of-type(3) th');
-  thHeaders.forEach(function (value) {
-    value.style.width = null;
-  });
-
-  let trHeader = document.querySelector('#divCourseMain table:nth-of-type(1) tr:nth-of-type(3)');
-  let thHelperTitle = document.createElement('th');
-  thHelperTitle.innerText = '排课助手';
-  thHelperTitle.classList.add('__SCHEDULING_HELPER');
-  trHeader.appendChild(thHelperTitle);
-
   let strTrimesterName = document.querySelector('.span_currentUserInfo > font').innerText;
   let strTrimesterKey = btoa(encodeURIComponent(strTrimesterName));
   getReservedClasses(strTrimesterKey, function (objReservedClasses) {
+    while (true) {
+      let helper_element = document.querySelector('.__SCHEDULING_HELPER');
+      if (helper_element === null) {
+        break;
+      }
+      helper_element.parentNode.removeChild(helper_element);
+    }
+
+    if (document.querySelectorAll('#divCourseMain table').length < 2) {
+      return;
+    }
+
+    let thHeaders = document.querySelectorAll('#divCourseMain table:nth-of-type(1) tr:nth-of-type(3) th');
+    thHeaders.forEach(function (value) {
+      value.style.width = null;
+    });
+
+    let trHeader = document.querySelector('#divCourseMain table:nth-of-type(1) tr:nth-of-type(3)');
+    let thHelperTitle = document.createElement('th');
+    thHelperTitle.innerText = '排课助手';
+    thHelperTitle.classList.add('__SCHEDULING_HELPER');
+    trHeader.appendChild(thHelperTitle);
+
     let arrTrRows = document.querySelectorAll('#divCourseMain table:nth-of-type(1) tr:nth-of-type(n + 4):not(:last-of-type)');
     arrTrRows.forEach(function (trRow) {
       let strCourseId = trRow.children[1].innerText;
