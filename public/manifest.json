@@ -26,7 +26,8 @@
       ],
       "js": [
         "csQueryCourse.js"
-      ]
+      ],
+      "run_at": "document_end"
     },
     {
       "matches": [
@@ -37,7 +38,8 @@
       ],
       "js": [
         "csFastInput.js"
-      ]
+      ],
+      "run_at": "document_end"
     },
     {
       "matches": [
@@ -48,7 +50,8 @@
       ],
       "js": [
         "csQueryCourseTable.js"
-      ]
+      ],
+      "run_at": "document_end"
     },
     {
       "matches": [
@@ -59,7 +62,8 @@
       ],
       "js": [
         "csQueryEnrollRank.js"
-      ]
+      ],
+      "run_at": "document_end"
     },
     {
       "matches": [

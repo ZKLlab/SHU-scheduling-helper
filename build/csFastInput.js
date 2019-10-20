@@ -185,7 +185,3 @@ document.querySelectorAll('#divInput input[type="text"]').forEach(function (elem
 document.querySelector('#postForm').addEventListener('reset', function () {
   setTimeout(getInputClasses, 0);
 });
-
-setTimeout(function () {
-  getSelectedClasses();
-}, 1000);

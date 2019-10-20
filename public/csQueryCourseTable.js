@@ -144,10 +144,3 @@ observer.observe(targetNode, observerOptions);
 chrome.storage.onChanged.addListener(() => {
   addCol();
 });
-
-setTimeout(function () {
-  document.querySelectorAll('td[colspan="20"]').forEach((value) => {
-    value.setAttribute('colspan', '12')
-  });
-  addCol();
-}, 1000);

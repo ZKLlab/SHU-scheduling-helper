@@ -41,7 +41,7 @@ function callback(mutationList) {
     value.setAttribute('colspan', '7')
   });
   mutationList.forEach((mutation) => {
-    if (mutation.addedNodes.length >= 3) {
+    if (mutation.addedNodes.length >= 2) {
       setStyle();
     }
   });
@@ -55,10 +55,3 @@ const observerOptions = {
 
 let observer = new MutationObserver(callback);
 observer.observe(targetNode, observerOptions);
-
-setTimeout(function () {
-  document.querySelectorAll('td[colspan="10"]').forEach((value) => {
-    value.setAttribute('colspan', '7')
-  });
-  setStyle();
-}, 1000);
