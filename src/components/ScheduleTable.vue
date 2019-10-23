@@ -3,15 +3,21 @@
     <table class="schedule-table">
       <thead>
       <tr>
-        <th :style="{ width: '6.5%' }"></th>
-        <th :style="{ width: '16%' }"></th>
-        <th v-for="week in ['一', '二', '三', '四', '五']" :key="week" :style="{ width: '15.5%' }">{{ week }}</th>
+        <th :style="{ width: showPeriods ? '6.5%' : '10%' }"></th>
+        <th v-if="showPeriods" :style="{ width: '16%' }"></th>
+        <th
+          v-for="week in ['一', '二', '三', '四', '五']"
+          :key="week"
+          :style="{ width: showPeriods ? '15.5%' : '18%' }"
+        >
+          {{ week }}
+        </th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="(row, index) in tableData" :key="index">
         <th>{{ index + 1 }}</th>
-        <td class="class-period">
+        <td v-if="showPeriods" class="class-period">
           <p>{{ classPeriods[index][0] }}</p>
           <p>- {{ classPeriods[index][1] }}</p>
         </td>
@@ -49,6 +55,10 @@
       seed: {
         type: String,
         default: null,
+      },
+      showPeriods: {
+        type: Boolean,
+        default: false,
       },
     },
     data() {

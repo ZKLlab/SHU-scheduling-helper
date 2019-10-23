@@ -1,6 +1,6 @@
 <template>
   <div>
-    <schedule-table class="schedule-table" :trimester="trimester" :seed="seed" />
+    <schedule-table class="schedule-table" :trimester="trimester" :seed="seed" show-periods />
     <div class="color-seed-main">
       <h3>{{ getTrimesterName(trimester) }}</h3>
       <p>课程的主题颜色是对课程名称使用相同的

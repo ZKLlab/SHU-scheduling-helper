@@ -7,6 +7,7 @@ import {
   Button,
   Card,
   Collapse,
+  ConfigProvider,
   Divider,
   Drawer,
   Empty,
@@ -30,6 +31,7 @@ Vue.use(Badge);
 Vue.use(Button);
 Vue.use(Card);
 Vue.use(Collapse);
+Vue.use(ConfigProvider);
 Vue.use(Divider);
 Vue.use(Drawer);
 Vue.use(Empty);
