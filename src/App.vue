@@ -64,6 +64,16 @@
               <span>已选学分：{{ $store.getters.credit }}</span>
             </div>
             <reserved-classes-list v-if="currentTrimester !== null" :trimester="currentTrimester" />
+            <a-empty
+              v-if="currentTrimester === null || this.$store.state.reservedClasses[this.trimester].length === 0"
+              class="reserved-classes-list-empty"
+              description="待选课程列表为空"
+            >
+              <a href="http://www.xk.shu.edu.cn/" target="_blank">
+                去选课网站
+                <a-icon type="right" />
+              </a>
+            </a-empty>
           </a-layout-content>
         </a-layout>
       </a-layout>
@@ -293,5 +303,10 @@
     margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
+  }
+
+  .reserved-classes-list-empty {
+    margin-top: 50px;
+    margin-bottom: 50px;
   }
 </style>

@@ -9,6 +9,7 @@ import {
   Collapse,
   Divider,
   Drawer,
+  Empty,
   Icon,
   Input,
   Layout,
@@ -31,6 +32,7 @@ Vue.use(Card);
 Vue.use(Collapse);
 Vue.use(Divider);
 Vue.use(Drawer);
+Vue.use(Empty);
 Vue.use(Icon);
 Vue.use(Input);
 Vue.use(Layout);
