@@ -65,7 +65,7 @@
             </div>
             <reserved-classes-list v-if="currentTrimester !== null" :trimester="currentTrimester" />
             <a-empty
-              v-if="currentTrimester === null || this.$store.state.reservedClasses[this.trimester].length === 0"
+              v-if="reservedClassesListEmpty"
               class="reserved-classes-list-empty"
               description="待选课程列表为空"
             >
@@ -209,7 +209,10 @@
       },
       menuSelectedKeys() {
         return this.menuCurrentTrimesterSelected ? [this.$store.state.currentTrimester] : [];
-      }
+      },
+      reservedClassesListEmpty() {
+        return this.currentTrimester === null || (this.$store.state.reservedClasses[this.trimester] && this.$store.state.reservedClasses[this.trimester].length === 0);
+      },
     },
     created() {
       this.refreshAll();
