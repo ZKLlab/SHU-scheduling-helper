@@ -46,7 +46,7 @@
       <img src="https://xk.zkllab.com/help-2.jpg" alt="快捷录入" />
     </p>
     <a-drawer
-      width="480px"
+      :width="fullScreen ? '100%' : '480px'"
       title="关于"
       placement="right"
       :visible="aboutVisible"
@@ -65,6 +65,12 @@
     name: 'HelpPage',
     components: {
       AboutPage
+    },
+    props: {
+      fullScreen: {
+        type: Boolean,
+        default: false,
+      },
     },
     data() {
       return {

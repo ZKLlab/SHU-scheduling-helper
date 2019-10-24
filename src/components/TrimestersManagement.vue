@@ -59,8 +59,8 @@
 </template>
 
 <script>
-  import {Modal} from 'ant-design-vue'
-  import ColorSeed from './ColorSeed.vue'
+  import {Modal} from 'ant-design-vue';
+  import ColorSeed from './ColorSeed.vue';
 
   export default {
     name: 'TrimestersManagement',

@@ -23,21 +23,21 @@
             addonBefore="Seed值"
             style="color: black"
             placeholder="输入任何文字，可以留空，最多80字符"
-            @blur="saveSeed()"
+            @blur="saveSeed"
           />
         </p>
         <p>
-          <a-button type="dashed" class="btn-random" :disabled="poemLoading || seed === ''" @click="clear()">
+          <a-button type="dashed" class="btn-random" :disabled="poemLoading || seed === ''" @click="clear">
             <a-icon type="delete" />
             清空
           </a-button>
-          <a-button class="btn-random" :disabled="poemLoading" @click="randomNumber()">
+          <a-button class="btn-random" :disabled="poemLoading" @click="randomNumber">
             随机数字
           </a-button>
-          <a-button class="btn-random" :disabled="poemLoading" @click="randomString()">
+          <a-button class="btn-random" :disabled="poemLoading" @click="randomString">
             随机乱码
           </a-button>
-          <a-button type="primary" class="btn-random" :loading="poemLoading" @click="randomPoem()">
+          <a-button type="primary" class="btn-random" :loading="poemLoading" @click="randomPoem">
             来一句诗！
           </a-button>
         </p>
@@ -47,8 +47,8 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import ScheduleTable from './ScheduleTable'
+  import axios from 'axios';
+  import ScheduleTable from './ScheduleTable';
 
   export default {
     name: 'ColorSeed',
@@ -119,7 +119,7 @@
           trimesterKey: this.trimester,
           colorSeed: this.seed,
         });
-      }
+      },
     },
   }
 </script>

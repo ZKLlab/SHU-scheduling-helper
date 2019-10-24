@@ -28,17 +28,17 @@
             已选课程
           </template>
         </a-collapse-panel>
-        <a-collapse-panel :key="course.courseId">
+        <a-collapse-panel class="course" :key="course.courseId">
           <template slot="header">
             <div class="course-color" :style="colorStyle(course.courseName)"></div>
             <div class="course-meta">
-              {{ course.courseName }}
-              <small>({{ course.courseId }})</small>
               <a-badge
                 class="credit-badge"
                 :count="`${course.credit}学分`"
                 :numberStyle="{ backgroundColor: '#ffffff', color: '#999999', boxShadow: '0 0 0 1px #d9d9d9 inset' }"
               />
+              {{ course.courseName }}
+              <small>({{ course.courseId }})</small>
               <template v-if="course.selectedClass !== null && accordionOpened !== course.courseId">
                 <br />
                 {{ course.selectedClass.teacherName }}
@@ -48,7 +48,7 @@
               </template>
             </div>
           </template>
-          <a-list size="small" class="classes-list" :dataSource="course.classes" :locale="{ emptyText: '没有其他待选项了' }">
+          <a-list size="small" class="classes-list" :dataSource="course.classes">
             <a-list-item
               class="selected-class-list-item"
               slot="header"
@@ -241,13 +241,20 @@
     margin: -16px 0;
   }
 
-  .course-meta {
-    display: inline-block;
-    vertical-align: top;
+  .credit-badge {
+    float: right;
   }
 
-  .credit-badge {
-    margin-left: 16px;
+  /*noinspection CssUnusedSymbol*/
+  .course >>> .ant-collapse-header {
+    overflow: hidden;
+    padding-right: 12px !important;
+  }
+
+  .course-meta {
+    padding-left: 16px;
+    white-space: normal;
+    vertical-align: top;
   }
 
   .selected-class-time {
@@ -292,16 +299,14 @@
   }
 
   .course-color {
-    display: inline-block;
+    display: block;
     width: 8px;
     height: 15px;
-    margin-right: 8px;
-    vertical-align: top;
-    position: relative;
-    top: 3px;
+    position: absolute;
+    top: 16px;
   }
 
-  /*noinspection ALL*/
+  /*noinspection CssUnusedSymbol*/
   .list-header >>> .ant-collapse-header {
     cursor: default !important;
     user-select: none;

@@ -1,8 +1,8 @@
 <template>
   <div>
     <a-layout>
-      <a-layout-header class="page-header" style="background: white; padding: 0">
-        <div class="header-title">上海大学排课助手
+      <a-layout-header class="page-footer">
+        <div class="header-footer">上海大学排课助手
           <small>插件版 v{{ version }}</small>
         </div>
         <a-menu
@@ -101,15 +101,14 @@
 </template>
 
 <script>
-  import moment from 'moment'
-  import Storage from './storage'
-  import Clipboard from 'clipboard'
-  import {Modal} from 'ant-design-vue'
-  import updateCheck from './updateCheck'
-  import HelpPage from './components/HelpPage'
-  import ScheduleTable from './components/ScheduleTable'
-  import ReservedClassesList from './components/ReservedClassesList'
-  import TrimestersManagement from './components/TrimestersManagement'
+  import moment from 'moment';
+  import Storage from './storage';
+  import Clipboard from 'clipboard';
+  import {Modal} from 'ant-design-vue';
+  import HelpPage from './components/HelpPage';
+  import ScheduleTable from './components/ScheduleTable';
+  import ReservedClassesList from './components/ReservedClassesList';
+  import TrimestersManagement from './components/TrimestersManagement';
 
   export default {
     name: 'Normal',
@@ -125,7 +124,6 @@
         menuCurrentTrimesterSelected: false,
         helpVisible: false,
         version: null,
-        updateCheckingTimer: null,
       };
     },
     computed: {
@@ -211,27 +209,18 @@
         return this.menuCurrentTrimesterSelected ? [this.$store.state.currentTrimester] : [];
       },
       reservedClassesListEmpty() {
-        return this.currentTrimester === null || (this.$store.state.reservedClasses[this.trimester] && this.$store.state.reservedClasses[this.trimester].length === 0);
+        return this.currentTrimester === null || (this.$store.state.reservedClasses[this.currentTrimester] && this.$store.state.reservedClasses[this.currentTrimester].length === 0);
       },
     },
     created() {
-      this.refreshAll();
       // noinspection JSUnresolvedVariable,JSUnresolvedFunction
       this.version = chrome.runtime.getManifest().version;
+      this.refreshAll();
       Storage.addListener(() => {
         this.refreshAll();
       });
-      this.updateCheckingTimer = setInterval(() => {
-        this.checkForUpdate();
-      }, 5 * 60 * 1000);
-      this.checkForUpdate();
-    },
-    beforeDestroy() {
-      clearInterval(this.updateCheckingTimer);
     },
     mounted() {
-      document.querySelector('html').classList.add('__SHU_SCHEDULING_HELPER');
-      document.querySelector('html').classList.add(`__SHU_SCHEDULING_HELPER__v${this.version}`);
       let clipboard = new Clipboard('.export-selected-classes');
       clipboard.on('success', () => {
         this.$message.success('已复制！');
@@ -253,19 +242,14 @@
       menuOpenChangeHandler(openKeys) {
         this.menuCurrentTrimesterSelected = openKeys.indexOf('trimesters') > -1;
       },
-      checkForUpdate() {
-        updateCheck().then((result) => {
-          if (result !== undefined) {
-            this.$store.dispatch('setUpdateInfo', result);
-          }
-        });
-      },
-    }
+    },
   }
 </script>
 
-<style>
-  .page-header {
+<style scoped>
+  .page-footer {
+    background: white;
+    padding: 0;
     position: fixed;
     left: 0;
     top: 0;
@@ -273,7 +257,7 @@
     z-index: 999;
   }
 
-  .header-title {
+  .header-footer {
     display: inline-block;
     text-align: center;
     font-size: 18px;
@@ -282,7 +266,7 @@
     float: left;
   }
 
-  .header-title small {
+  .header-footer small {
     opacity: 0.8;
     font-size: 12px;
   }

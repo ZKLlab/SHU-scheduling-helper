@@ -215,6 +215,7 @@
 <style scoped>
   .schedule-table-main {
     padding: 8px;
+    background: white;
   }
 
   .schedule-table {
