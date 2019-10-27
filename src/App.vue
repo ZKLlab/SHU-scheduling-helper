@@ -39,6 +39,8 @@
       document.querySelector('html').classList.add('__SHU_SCHEDULING_HELPER');
       // noinspection JSUnresolvedVariable,JSUnresolvedFunction
       document.querySelector('html').classList.add(`__SHU_SCHEDULING_HELPER__v${chrome.runtime.getManifest().version}`);
+      // noinspection JSUnresolvedVariable
+      document.querySelector('html').classList.add(`__SHU_SCHEDULING_HELPER__${chrome.runtime.id}`);
     },
     methods: {
       checkForUpdate() {
@@ -48,7 +50,7 @@
           }
         });
       },
-    }
+    },
   }
 </script>
 

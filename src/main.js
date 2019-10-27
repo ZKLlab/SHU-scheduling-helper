@@ -9,6 +9,7 @@ import {
   Badge,
   Button,
   Card,
+  Checkbox,
   Collapse,
   ConfigProvider,
   Divider,
@@ -36,6 +37,7 @@ Vue.use(Avatar);
 Vue.use(Badge);
 Vue.use(Button);
 Vue.use(Card);
+Vue.use(Checkbox);
 Vue.use(Collapse);
 Vue.use(ConfigProvider);
 Vue.use(Divider);

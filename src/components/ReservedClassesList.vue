@@ -68,7 +68,7 @@
                         v-if="conflictList(item).length === 0">
                 选择
               </a-button>
-              <a-button type="danger" slot="actions" @click="showConflict(conflictList(item))" v-else>
+              <a-button type="danger" slot="actions" @click="showConflict(conflictList(item), item)" v-else>
                 冲突
               </a-button>
               <a-popconfirm
@@ -102,6 +102,7 @@
     data() {
       return {
         accordionOpened: null,
+        cancelKeys: [],
       };
     },
     computed: {
@@ -163,15 +164,18 @@
         }
       },
       selectClass(key) {
-        this.$store.dispatch('selectClass', key).then(() => {
-          this.accordionOpened = null;
-        });
+        return new Promise((resolve) => {
+          this.$store.dispatch('selectClass', key).then(() => {
+            this.accordionOpened = null;
+            resolve();
+          });
+        })
       },
       cancelSelectClass(key) {
-        this.$store.dispatch('cancelSelectClass', key);
+        return this.$store.dispatch('cancelSelectClass', key);
       },
       removeReserved(key) {
-        this.$store.dispatch('removeReservedClasses', key);
+        return this.$store.dispatch('removeReservedClasses', key);
       },
       getClassTime(text) {
         let pattern = /([一二三四五])(\d+)-(\d+)/g;
@@ -206,7 +210,7 @@
         });
         return result;
       },
-      showConflict(list) {
+      showConflict(list, item) {
         const h = this.$createElement;
         let content = [];
         list.forEach((value) => {
@@ -226,13 +230,114 @@
             }, value.classTime)
           ]));
         });
-        Modal.warning({
+        Modal.confirm({
+          iconType: 'warning',
           title: '此待选项与以下已选课程时间冲突：',
           content: h('div', content),
-          okText: '知道了',
+          okText: '去解决',
+          okType: 'danger',
+          cancelText: '知道了',
+          onOk: () => {
+            this.showConflictSolving(list, item);
+          }
         });
-      }
-    }
+      },
+      showConflictSolving(list, item) {
+        const h = this.$createElement;
+        let content = [];
+        this.cancelKeys = [];
+        let modal = Modal.confirm({
+          iconType: 'warning',
+          title: '请勾选要取消选择的课程：',
+          okText: '解决冲突',
+          okType: 'danger',
+          okButtonProps: {
+            props: {
+              disabled: true,
+            }
+          },
+          cancelText: '取消',
+          onOk: async () => {
+            if (this.cancelKeys.indexOf(false) < 0) {
+              for (let i = 0; i < this.cancelKeys.length; i++) {
+                await this.cancelSelectClass(this.cancelKeys[i]);
+                // TODO: 确保取消选择成功，有更好的方法吗？
+                await new Promise((resolve) => {
+                  const test = () => {
+                    if (!this.reservedClasses[this.cancelKeys[i]].selected) {
+                      resolve();
+                    }
+                  };
+                  setTimeout(test, 100);
+                });
+              }
+              await this.selectClass(item.key);
+              Modal.success({
+                title: '冲突解决完毕，已选择以下课程：',
+                content: h('p', {
+                  'class': {'conflict-list-class-meta': true}
+                }, [
+                  `${item.courseName} `,
+                  h('small', `(${item.courseId})`),
+                  h('br'),
+                  `${item.teacherName} `,
+                  h('small', `(${item.teacherId})`),
+                  h('a-divider', {
+                    props: {type: 'vertical'}
+                  }),
+                  h('span', {
+                    'class': {'conflict-list-class-meta-time': true}
+                  }, item.classTime)
+                ]),
+                okText: '确定',
+              });
+              this.cancelKeys = [];
+            }
+          },
+          onCancel: () => {
+            this.cancelKeys = [];
+          },
+        });
+        list.forEach((value, index) => {
+          this.cancelKeys.push(false);
+          // noinspection JSUnusedGlobalSymbols
+          content.push(h('a-checkbox', {
+            'class': {'conflict-solving-list-class-meta-wrapper': true},
+            on: {
+              change: (event) => {
+                this.cancelKeys[index] = event.target.checked ? value.key : false;
+                modal.update({
+                  okButtonProps: {
+                    props: {
+                      disabled: this.cancelKeys.indexOf(false) >= 0,
+                    }
+                  },
+                });
+              },
+            },
+          }, [
+            h('div', {
+              'class': {'conflict-solving-list-class-meta': true}
+            }, [
+              `${value.courseName} `,
+              h('small', `(${value.courseId})`),
+              h('br'),
+              `${value.teacherName} `,
+              h('small', `(${value.teacherId})`),
+              h('a-divider', {
+                props: {type: 'vertical'}
+              }),
+              h('span', {
+                'class': {'conflict-list-class-meta-time': true}
+              }, value.classTime),
+            ]),
+          ]));
+        });
+        modal.update({
+          content: h('div', content),
+        });
+      },
+    },
   }
 </script>
 
@@ -287,9 +392,19 @@
 
   /*noinspection CssUnusedSymbol*/
   .conflict-list-class-meta {
-    /*color: black;*/
     font-size: 14px;
-    margin: 16px 0;
+    margin: 16px 0 0;
+  }
+
+  /*noinspection CssUnusedSymbol*/
+  .conflict-solving-list-class-meta-wrapper {
+    font-size: 14px;
+    margin: 0;
+  }
+
+  /*noinspection CssUnusedSymbol*/
+  .conflict-solving-list-class-meta-wrapper:first-of-type {
+    margin: 16px 0 0;
   }
 
   /*noinspection CssUnusedSymbol*/
@@ -310,5 +425,10 @@
   .list-header >>> .ant-collapse-header {
     cursor: default !important;
     user-select: none;
+  }
+
+  /*noinspection CssUnusedSymbol*/
+  .conflict-solving-list-class-meta {
+    margin: -21px 0 0 24px;
   }
 </style>
