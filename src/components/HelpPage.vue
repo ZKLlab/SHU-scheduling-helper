@@ -13,9 +13,9 @@
     <p>此教程将帮助你认识助手的几项基本用法，以下功能请自己探索哦：</p>
     <ul>
       <li>导出课程列表</li>
-      <li>查看时间冲突</li>
+      <li>查看并解决时间冲突</li>
       <li>学期管理</li>
-      <li>色彩Seed <strong>(v0.1.3 NEW!)</strong></li>
+      <li>色彩Seed</li>
       <li>……</li>
     </ul>
     <a-divider></a-divider>
