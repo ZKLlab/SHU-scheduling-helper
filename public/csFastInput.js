@@ -169,21 +169,24 @@ if (window.location.port !== '8084') {
   }
 
   const targetNode = document.querySelector("#divCourseTable");
-  const observerOptions = {
-    childList: true,
-    attributes: false,
-  };
 
-  let observer = new MutationObserver(callback);
-  observer.observe(targetNode, observerOptions);
+  if (targetNode != null) {
+    const observerOptions = {
+      childList: true,
+      attributes: false,
+    };
 
-  document.querySelectorAll('#divInput input[type="text"]').forEach(function (element) {
-    element.addEventListener('input', function () {
-      getInputClasses();
+    let observer = new MutationObserver(callback);
+    observer.observe(targetNode, observerOptions);
+
+    document.querySelectorAll('#divInput input[type="text"]').forEach(function (element) {
+      element.addEventListener('input', function () {
+        getInputClasses();
+      });
     });
-  });
 
-  document.querySelector('#postForm').addEventListener('reset', function () {
-    setTimeout(getInputClasses, 0);
-  });
+    document.querySelector('#postForm').addEventListener('reset', function () {
+      setTimeout(getInputClasses, 0);
+    });
+  }
 }
