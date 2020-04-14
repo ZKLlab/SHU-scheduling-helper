@@ -1,6 +1,8 @@
+**目前维护版本：[ZKLlab/shu-scheduling-helper-frontend](https://github.com/ZKLlab/shu-scheduling-helper-frontend)**
+
 # SHU Scheduling Helper
 
-上海大学选课助手(插件版)
+上海大学排课助手(插件版)
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/kmgdfejkkpmeimbkglbjmgbfiggimfhp.svg)](https://chrome.google.com/webstore/detail/kmgdfejkkpmeimbkglbjmgbfiggimfhp)
 
@@ -27,5 +29,3 @@ npm run build
 - [x] Check for Updates
 
 - [ ] Print
-
-- [ ] Refactoring
