@@ -1,4 +1,4 @@
-**目前维护版本：[ZKLlab/shu-scheduling-helper-frontend](https://github.com/ZKLlab/shu-scheduling-helper-frontend)**
+**目前版本：[shuosc/shu-scheduling-helper](https://github.com/shuosc/shu-scheduling-helper)，此项目不再维护。**
 
 # SHU Scheduling Helper
 
