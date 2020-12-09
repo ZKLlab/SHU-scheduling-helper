@@ -209,7 +209,7 @@
         return this.menuCurrentTrimesterSelected ? [this.$store.state.currentTrimester] : [];
       },
       reservedClassesListEmpty() {
-        return this.currentTrimester === null || (this.$store.state.reservedClasses[this.currentTrimester] && this.$store.state.reservedClasses[this.currentTrimester].length === 0);
+        return this.currentTrimester === null || Object.keys(this.$store.state.reservedClasses[this.currentTrimester]).length === 0;
       },
     },
     created() {

@@ -33,7 +33,12 @@ function setReservedClasses(trimesterKey, data, callback) {
 }
 
 function addCol() {
-  let strTrimesterName = document.querySelector('.span_currentUserInfo > font').innerText;
+  let strTrimesterName;
+  if (window.location.port === '8084') {
+    strTrimesterName = document.querySelector('ul.nav.navbar-nav i.fa.fa-calendar-o + span').innerText.trim();
+  } else {
+    strTrimesterName = document.querySelector('.span_currentUserInfo > font').innerText;
+  }
   let strTrimesterKey = btoa(encodeURIComponent(strTrimesterName));
   getReservedClasses(strTrimesterKey, function (objReservedClasses) {
     while (true) {
